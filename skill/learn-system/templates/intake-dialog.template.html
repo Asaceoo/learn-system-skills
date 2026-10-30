@@ -1,0 +1,145 @@
+<div class="intake" id="intake">
+  <style>
+    .intake{font-family:var(--font-sans);color:var(--color-text-primary);line-height:1.6;
+      font-size:13px;font-weight:400;background:var(--color-background-primary);
+      border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);
+      padding:1rem 1.25rem;max-width:560px}
+    .intake *{box-sizing:border-box}
+    .intake h3{margin:0 0 2px;font-size:15px;font-weight:500}
+    .intake .sub{color:var(--color-text-secondary);font-size:12px;margin-bottom:16px}
+    .intake .q{margin-bottom:14px}
+    .intake .qt{font-size:13px;font-weight:500;margin-bottom:7px}
+    .intake .qn{color:var(--color-text-info);font-weight:500;margin-right:6px}
+    .intake .qh{color:var(--color-text-secondary);font-weight:400;font-size:12px}
+    .intake .opts{display:flex;flex-wrap:wrap;gap:6px}
+    .intake .opt{border:0.5px solid var(--color-border-tertiary);background:transparent;
+      border-radius:var(--border-radius-md);padding:7px 11px;font-size:13px;font-weight:400;
+      color:var(--color-text-primary);cursor:pointer;transition:.15s;user-select:none}
+    .intake .opt:hover{border-color:var(--color-border-secondary)}
+    .intake .opt.on{border-color:var(--color-border-info);background:var(--color-background-info);
+      color:var(--color-text-info);font-weight:500}
+    .intake .code{display:inline-block;font-size:11px;color:var(--color-text-secondary);
+      margin-right:5px;border:0.5px solid var(--color-border-tertiary);
+      border-radius:4px;padding:0 4px;vertical-align:1px}
+    .intake .opt.on .code{border-color:var(--color-border-info);color:var(--color-text-info)}
+    .intake .free{margin-top:6px;font-size:12px;color:var(--color-text-secondary)}
+    .intake hr{border:0;border-top:0.5px dashed var(--color-border-tertiary);margin:14px 0}
+    .intake .sum{background:var(--color-background-secondary);border-radius:var(--border-radius-md);
+      padding:11px 12px;font-size:13px}
+    .intake .sum .lb{font-size:11px;color:var(--color-text-secondary);letter-spacing:1px}
+    .intake .sum .val{font-weight:500;margin-top:3px;word-break:break-all}
+    .intake .sum .val.empty{color:var(--color-text-secondary);font-weight:400}
+    .intake .bar{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
+    .intake button{border-radius:var(--border-radius-md);padding:9px 16px;font-size:13px;
+      cursor:pointer;font-family:inherit;font-weight:400;background:transparent;
+      border:0.5px solid var(--color-border-secondary);color:var(--color-text-primary)}
+    .intake button.pri{border-color:var(--color-border-info);background:var(--color-background-info);
+      color:var(--color-text-info);font-weight:500}
+    .intake button.pri:disabled{opacity:.45;cursor:not-allowed}
+    .intake .tip{font-size:12px;color:var(--color-text-secondary);margin-top:8px}
+    @media(max-width:480px){.intake{padding:14px}.intake .opt{font-size:12px}}
+  </style>
+  <h3>学「{{TOPIC}}」之前，先定三件事</h3>
+  <div class="sub">选完点确认；三问封顶，不多问</div>
+
+  <div class="q">
+    <div class="qt"><span class="qn">Q1</span>为什么学？<span class="qh">决定深度与例子从哪来</span></div>
+    <div class="opts" data-q="why">
+      <div class="opt" data-code="A1"><span class="code">A1</span>工作上马上要用</div>
+      <div class="opt" data-code="A2"><span class="code">A2</span>转岗 / 求职要补齐</div>
+      <div class="opt" data-code="A3"><span class="code">A3</span>兴趣与通识，想搞清楚</div>
+    </div>
+    <div class="free">都不像？直接在对话框写一句你的原因，比选更准。</div>
+  </div>
+
+  <div class="q">
+    <div class="qt"><span class="qn">Q2</span>什么算成功？<span class="qh">决定验收方式</span></div>
+    <div class="opts" data-q="goal">
+      <div class="opt" data-code="B1"><span class="code">B1</span>能独立做出一个东西</div>
+      <div class="opt" data-code="B2"><span class="code">B2</span>能通过一门考试 / 认证</div>
+      <div class="opt" data-code="B3"><span class="code">B3</span>能给别人讲明白</div>
+    </div>
+    <div class="free">这条最关键：它决定每课末尾的验收题长什么样。</div>
+  </div>
+
+  <div class="q">
+    <div class="qt"><span class="qn">Q3</span>怎么学 + 每周几小时？<span class="qh">两件事，一起选</span></div>
+    <div class="opts" data-q="mode">
+      <div class="opt" data-code="C1"><span class="code">C1</span>标准：讲透原理 + 练习</div>
+      <div class="opt" data-code="C2"><span class="code">C2</span>备考：考点优先，压缩原理</div>
+    </div>
+    <div class="opts" data-q="hours" style="margin-top:6px">
+      <div class="opt" data-code="D1"><span class="code">D1</span>每周 1-3 小时</div>
+      <div class="opt" data-code="D2"><span class="code">D2</span>每周 4-6 小时</div>
+      <div class="opt" data-code="D3"><span class="code">D3</span>每周 7 小时以上</div>
+    </div>
+    <div class="free">小时数用来算预期完成时间，后面逾期了才好判断要不要砍模块。</div>
+  </div>
+
+  <hr>
+
+  <div class="sum">
+    <div class="lb">已选</div>
+    <div class="val empty" id="summary">还没选 · 至少选 Q1-Q3 各一项才能确认</div>
+  </div>
+
+  <div class="bar">
+    <button class="pri" id="confirm" disabled>确认，开课 ↗</button>
+    <button id="copy">复制汇总</button>
+  </div>
+  <div class="tip" id="tip">点确认会直接把这串代号发回对话框；也可以自己回复，如 A1 B2 C1 D2。</div>
+
+  <script>
+  (function(){
+    var root=document.getElementById('intake');
+    var picked={why:null,goal:null,mode:null,hours:null};
+    var order=['why','goal','mode','hours'];
+    var topic='{{TOPIC}}';
+    root.querySelectorAll('.opt').forEach(function(el){
+      el.addEventListener('click',function(){
+        var g=el.parentNode.getAttribute('data-q');
+        root.querySelectorAll('.opts[data-q="'+g+'"] .opt').forEach(function(o){o.classList.remove('on');});
+        el.classList.add('on');
+        picked[g]=el.getAttribute('data-code');
+        render();
+      });
+    });
+    function codes(){
+      var out=[];
+      order.forEach(function(g){ if(picked[g]) out.push(picked[g]); });
+      return out;
+    }
+    function render(){
+      var cs=codes(), miss=order.filter(function(g){return !picked[g];}).length;
+      var s=document.getElementById('summary'), btn=document.getElementById('confirm');
+      if(miss===0){
+        s.className='val'; s.textContent=cs.join(' ')+'　·　'+topic;
+        btn.disabled=false;
+      }else{
+        s.className='val empty';
+        s.textContent=cs.length ? cs.join(' ')+'　·　还缺 '+miss+' 项' : '还没选 · 至少选 Q1-Q3 各一项才能确认';
+        btn.disabled=true;
+      }
+    }
+    document.getElementById('copy').addEventListener('click',function(){
+      var t=document.getElementById('summary').textContent;
+      if(navigator.clipboard){navigator.clipboard.writeText(t);}
+      document.getElementById('tip').textContent='已复制：'+t;
+    });
+    document.getElementById('confirm').addEventListener('click',function(){
+      var msg='学「'+topic+'」，我的选择是：'+codes().join(' ');
+      if(typeof sendPrompt==='function'){ sendPrompt(msg); return; }
+      document.getElementById('tip').textContent='已确认：'+msg+'　请把这行发回对话框。';
+    });
+  })();
+  </script>
+</div>
+<!--
+用法（AI 读这里；渲染时不要带上这段注释）：
+1. {{TOPIC}} 全部替换成实际领域名（如「注塑」）。
+2. 用 show_widget 渲染本片段（规范先取 widget_guidelines），不要包 <html>/<body>/DOCTYPE。
+3. 弹窗只是收集器：AI 以用户回传的代号为准开课，不能自己替用户选。
+4. 用户不点、只选一部分、或回散装文字时的处置，见 references/08-intake-dialog.md。
+5. 无弹窗能力时：三行纯文本三问 + 每问带编号，用户回编号即可。
+6. 无 sendPrompt 时，确认按钮退化为「提示用户手动回复」，不要静默失败。
+-->

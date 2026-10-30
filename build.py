@@ -22,6 +22,7 @@ DOCS = [
     os.path.join(ROOT, "docs", "TECHNICAL.md"),
 ]
 VERSION_FILE = os.path.join(ROOT, "VERSION")
+INSTALLED = os.path.join(os.path.expanduser("~"), ".workbuddy", "skills", "learn-system")
 DIST = os.path.join(ROOT, "dist")
 
 # 文档里所有需要同步的版本号写法
@@ -90,6 +91,26 @@ def make_zip(version):
     return path, n
 
 
+def deploy():
+    """仓库副本 -> 已安装副本。不部署 = 改了仓库但跑的还是旧副本（本轮实测踩过）。"""
+    if not os.path.isdir(INSTALLED):
+        print("部署: 跳过（未找到已安装目录 %s）" % INSTALLED)
+        return 0
+    import shutil, filecmp
+    n = 0
+    for base, _, fs in os.walk(SKILL):
+        rel = os.path.relpath(base, SKILL)
+        dst_dir = INSTALLED if rel == "." else os.path.join(INSTALLED, rel)
+        os.makedirs(dst_dir, exist_ok=True)
+        for f in fs:
+            src, dst = os.path.join(base, f), os.path.join(dst_dir, f)
+            if not os.path.exists(dst) or not filecmp.cmp(src, dst, shallow=False):
+                shutil.copy2(src, dst)
+                n += 1
+    print(f"部署: {n} 个文件已同步到已安装副本")
+    return n
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--bump", choices=["patch", "minor", "major"], default="patch")
@@ -106,6 +127,8 @@ def main():
     for rel, n in sync_docs(old, new):
         flag = "OK  " if n else "--  "
         print(f"  {flag}{rel}: {n} 处版本号已更新")
+
+    deploy()
 
     path, n = make_zip(new)
     print(f"打包: {os.path.relpath(path, ROOT)}  ({n} 个文件, {os.path.getsize(path)//1024} KB)")

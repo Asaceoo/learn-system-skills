@@ -1,6 +1,6 @@
 # learn-system 技术手册
 
-> 版本：v0.6.0　|　面向：实现者、审查者、想改这个 Skill 的人　|　使用者请看 `USER_GUIDE.md`
+> 版本：v0.6.1　|　面向：实现者、审查者、想改这个 Skill 的人　|　使用者请看 `USER_GUIDE.md`
 
 ---
 
@@ -123,20 +123,27 @@ references/
   05-review.md                  复习档 0-5 + 到期队列 + 日期命令 + 异常处置
   06-sources.md                 来源 6 级 + 教材锚定 + 调研四步 + 断言三级 + 覆盖验收
   07-routing.md                 与既有 skill 的完整分工表（从 SKILL.md 外移）
+  08-intake-dialog.md           开课弹窗细则：三问代号表 / 回写 / 未确认处置 / 小时→周数换算
 templates/
   syllabus.template.yaml        含 started_at / core / coverage_gap / anchor
   mission / mastery / review / mistakes / learning-record .template.md
   lesson.template.html          自包含可打印；锚点 + 断言标签 + 可查证三条 + 易过期区
   reference.template.html
+  intake-dialog.template.html   开课三问弹窗；sendPrompt 回传 + 汇总行 + 未选满禁用确认
 ```
 
 ---
 
-## 6. 审计脚本 `tools/audit.py`
+## 6. 审计脚本
 
 ```bash
-python tools/audit.py    # 69 项，退出码非 0 即 FAIL
+python learn-system-audit.py    # 主审计：94 项（含 T/U 段），退出码非 0 即 FAIL
+python tools/review_dialog.py   # 只跑弹窗专项 T 段（24 项）
 ```
+
+两个脚本的关系：主审计在收尾前 `subprocess` 调用 `tools/review_dialog.py`，
+失败则把「弹窗 T 段」计入 FAILS。真实源码 = `tools/review_dialog.py`，
+仓库根的 `tools/audit.py` 是历史空文件，已删除。
 
 分段：
 
@@ -157,6 +164,8 @@ python tools/audit.py    # 69 项，退出码非 0 即 FAIL
 | P | 口径一致（mastery 顶部 vs review） |
 | Q | 盲测暴露的条款是否已补 |
 | R | 跨文件术语与计数同步（README 的铁律条数、无「复习档位」残留） |
+| T | **弹窗 24 项**：实现工具 / 模板存在 / 三问 / 选项数 / 汇总行 / 确认按钮 / 占位符 / 回写 / 未确认处置 / 双选 / 降级 / 体积 / 文档同步 / 字号≥11px / 换算表 / 不阻塞 / 无阴影 / CSS 变量 / sendPrompt / 字重 |
+| U | **双副本一致性**：仓库副本 vs `~/.workbuddy/skills/` 已装副本逐文件比对 |
 
 ---
 
@@ -209,6 +218,33 @@ python tools/audit.py    # 69 项，退出码非 0 即 FAIL
 
 ---
 
+### 7.5 第五轮：弹窗专项（三视角 + 两轮盲测）
+
+| 视角 | 抓到了什么 |
+|---|---|
+| 工具实现者（脚本取真实报错） | 11 项真错：未声明实现工具、无弹窗模板、汇总行/确认按钮只写在 SKILL.md 而模板里没有、答案不回写 `MISSION.md`、未确认无处置、无弹窗无降级 |
+| 审查者（脚本自审） | **2 处假绿**：① 降级检查被「可视化」近义词蒙混过关（实际没有弹窗降级）；② 主审计读的是**已安装副本**而不是仓库副本 —— 审错了对象，全绿也是假的 |
+| AI 使用方（盲测第 4/5 轮） | 3 个设计漏洞：字号 10px 违反平台 ≥11px 规范；`horizon_weeks` 没有取值规则，AI 只能拿 yaml 示例值 6 周并自曝；铁律 5 要「不学什么」而弹窗不问它 → **AI 卡死在流程 A 第 1 步** |
+
+修复与对应断言：
+
+| 问题 | 修复 | 断言 |
+|---|---|---|
+| 弹窗没有可复现形态 | 新建 `templates/intake-dialog.template.html` | T02-T05、T07、T09、T10 |
+| 答案不落盘 | 新建 `references/08-intake-dialog.md`，规定回写字段 | T11a/T11b |
+| 未确认 / 只选部分 / 回散装文字 | 细则 §5 四种情况各有处置，一律「不许卡住」 | T12 |
+| 无弹窗能力 | 降级表补「退化为三行编号纯文本」 | T14 |
+| 平台规范违规 | 去 box-shadow、字重降到 400/500、字号 ≥11px、改 CSS 变量适配暗色 | T18、T21、T22、T24 |
+| 点了还得手抄代号 | 确认按钮接 `sendPrompt`，无此函数时退化提示 | T23 |
+| 预期完成时间算不出 | 细则补「每周小时 → horizon_weeks」换算表（D1 12 周 / D2 5 周 / D3 3 周） | T19 |
+| 卡在「不学什么」 | 铁律 5 改为「可留待大纲确认时补」 | T20 |
+| 审错对象 | 主审计改读仓库副本，新增 U 段逐文件比对已装副本；`build.py` 打包前自动 `deploy()` | U 段 |
+
+体积约束：本轮净增 5 条规则，SKILL.md 仍在 14 KB 红线内（14306 B）——
+靠重写冗余表述腾出空间，没有再次抬高阈值。细则外移到 `references/08`，SKILL.md 只留一行指针。
+
+---
+
 ## 8. 设计取舍
 
 | 决定 | 理由 | 代价 |
@@ -236,13 +272,17 @@ python tools/audit.py    # 69 项，退出码非 0 即 FAIL
 ## 10. 构建与版本
 
 ```bash
-python build.py              # 递增 patch，同步三份文档版本号，打 dist/learn-system-vX.Y.Z.zip
+python build.py              # 递增 patch → 同步三份文档版本号 → 部署到已装副本 → 打 zip
 python build.py --bump minor
 python build.py --no-bump    # 只打包
-python tools/audit.py        # 校验，退出码非 0 即 FAIL
+python learn-system-audit.py # 校验，退出码非 0 即 FAIL
 ```
 
 `VERSION` 是版本号唯一真源；`build.py` 递增后会把新版本号写入 README、用户手册、技术手册。
+
+**部署步骤不是可选项**：仓库副本（`skill/learn-system/`）与已安装副本
+（`~/.workbuddy/skills/learn-system/`）是两个独立文件树，只改仓库不部署 = 跑的还是旧副本。
+`build.py` 在打包前自动 `deploy()`；审计 U 段会比对两份，不一致直接 FAIL。
 
 ---
 
