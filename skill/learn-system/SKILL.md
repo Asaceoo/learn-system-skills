@@ -91,7 +91,7 @@ study/<topic>/
 
 不要把恢复信息散到别的文件。**口径**：「到期复习」= **今天**到期数，必须与 `review.md` 的「今天到期 N 条」一致；队列总数写在括号里。
 
-**新会话怎么找到它**：扫 `study/*/mastery.md` **和**铁律 16 的兜底目录 `~/Documents/learn-system/*/mastery.md`（否则会失联、被当新课题）；唯一命中就直接用；多个 → 列出让用户选；一个都没有但当前目录同时有 `syllabus.yaml` 和 `mastery.md` → 当前目录即 topic 根；都没有 → 走流程 A。
+**新会话怎么找到它**：扫**当前工作目录**下的 `study/*/mastery.md` 和兜底目录 `~/Documents/learn-system/*/mastery.md`（否则会失联、被当新课题）；**不向上级目录找**，否则在仓库/多项目下会误命中别人的课题。唯一命中直接用；多个 → 列出让用户选，不要靠时间戳自己猜；当前目录本身就有 `syllabus.yaml` + `mastery.md` → 它就是 topic 根；都没有 → 走流程 A。
 
 ### 两个刻度不要混
 

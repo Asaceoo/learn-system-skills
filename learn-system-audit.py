@@ -256,6 +256,15 @@ print("\n=== N. 覆盖度检查时机 ==")
 chk(re.search(r"覆盖度.*?(每课|模块结束)", sk, re.S) is not None,
     "定义了覆盖度检查时机", "铁律 4 要求覆盖度验收，但没说什么时候查")
 
+print("\n=== X. 鲁班改动回归检查 ===")
+_x = os.path.join(ROOT, "tools", "review_regress.py")
+if os.path.exists(_x):
+    import subprocess
+    if subprocess.call([sys.executable, _x]) != 0:
+        FAILS.append("回归 X 段有 FAIL（见上方 X 段输出）")
+else:
+    FAILS.append("缺 tools/review_regress.py")
+
 print("\n=== V. 知识图谱总览功能完整性 ===")
 _v = os.path.join(ROOT, "tools", "review_graph.py")
 if os.path.exists(_v):

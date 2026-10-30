@@ -130,6 +130,15 @@ def main():
 
     deploy()
 
+    # 项数兜底：文档说的审计项数必须等于实际。不一致就拒绝打包（v0.7.3 漏过一次）
+    cc = os.path.join(ROOT, "tools", "count_checks.py")
+    if os.path.exists(cc):
+        import subprocess
+        print("校验文档项数:")
+        if subprocess.call([sys.executable, cc], cwd=ROOT) != 0:
+            print("!! 文档项数与实际不符，已拒绝打包。改完再跑 build.py")
+            return 1
+
     path, n = make_zip(new)
     print(f"打包: {os.path.relpath(path, ROOT)}  ({n} 个文件, {os.path.getsize(path)//1024} KB)")
     print(f"完成: {datetime.datetime.now():%Y-%m-%d %H:%M:%S}")
