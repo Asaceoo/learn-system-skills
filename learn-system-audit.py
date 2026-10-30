@@ -280,6 +280,22 @@ if os.path.isdir(INSTALLED):
 else:
     print("  --    未安装，跳过")
 
+print("\n=== W. 文档口径（项数不能三份各说各的）===")
+import re as _re
+def _claims(path):
+    try:
+        x = rd(path)
+    except Exception:
+        return set()
+    return set(_re.findall(r"(\d+)\s*项", x))
+_c1 = _claims(os.path.join(ROOT, "README.md"))
+_c2 = _claims(os.path.join(ROOT, "docs", "USER_GUIDE.md"))
+_c3 = _claims(os.path.join(ROOT, "docs", "TECHNICAL.md"))
+_audit_nums = {n for n in (_c1 & _c2 & _c3) if int(n) > 50}
+chk(len(_audit_nums) == 1,
+    f"三份文档里的审计项数一致（{'/'.join(sorted(_audit_nums)) or '不一致'}）",
+    "改了 README 忘了改手册 = 用户和实现者看到的数字不一样")
+
 print("\n" + "=" * 58)
 if FAILS:
     print(f"共 {len(FAILS)} 项 FAIL：")

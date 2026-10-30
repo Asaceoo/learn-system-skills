@@ -1,6 +1,6 @@
 # learn-system 技术手册
 
-版本：v0.7.0　|　面向：实现者、审查者、想改这个 Skill 的人　|　使用者请看 `USER_GUIDE.md`
+版本：v0.7.1　|　面向：实现者、审查者、想改这个 Skill 的人　|　使用者请看 `USER_GUIDE.md`
 
 ---
 
@@ -185,7 +185,7 @@ templates/
 
 ---
 
-## 6. 审计脚本：94 项
+## 6. 审计脚本：120 项
 
 ```bash
 python learn-system-audit.py    # 主审计，退出码非 0 即 FAIL
