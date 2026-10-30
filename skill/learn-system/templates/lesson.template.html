@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0001 · 课程标题</title>
+<style>
+:root{
+  --ink:#1a1a1a; --ink-2:#4a4a4a; --ink-3:#767676;
+  --line:#e2e2e2; --bg:#fbfaf8; --card:#ffffff;
+  --accent:#8a5a2b; --ok:#2f7a4d; --bad:#b3403a; --warn:#c99a3f;
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Iowan Old Style","Palatino Linotype",Georgia,"Songti SC","Noto Serif CJK SC",serif;
+  line-height:1.75;
+}
+.wrap{max-width:44rem;margin:0 auto;padding:4rem 1.5rem 6rem}
+header.meta{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);border-bottom:1px solid var(--line);padding-bottom:.8rem;
+}
+h1{font-size:1.9rem;line-height:1.3;margin:2.2rem 0 .4rem;font-weight:600}
+.sub{color:var(--ink-2);font-size:1rem;margin:0 0 2.2rem}
+h2{font-size:1.15rem;margin:2.8rem 0 .8rem;font-weight:600;letter-spacing:.01em}
+h2::before{content:counter(sec) ". ";counter-increment:sec;color:var(--accent);font-variant-numeric:tabular-nums}
+article{counter-reset:sec}
+p{margin:.9rem 0}
+.lead{font-size:1.05rem;color:var(--ink-2)}
+code{font-family:"SF Mono",Consolas,monospace;font-size:.88em;background:#f2efe9;padding:.1em .35em;border-radius:3px}
+pre{background:#f5f2ec;border-left:2px solid var(--accent);padding:1rem 1.1rem;overflow:auto;font-size:.86rem;line-height:1.6}
+.goal{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);padding:1rem 1.2rem;margin:1.8rem 0}
+.goal b{display:block;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.4rem;font-weight:600}
+.warn{background:#fdf6e9;border-left:3px solid var(--warn);padding:.9rem 1.1rem;margin:1.4rem 0;font-size:.95rem}
+table{width:100%;border-collapse:collapse;margin:1.4rem 0;font-size:.9rem}
+th,td{text-align:left;padding:.55rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+details{margin:.8rem 0;padding:.7rem 1rem;background:var(--card);border:1px solid var(--line);border-radius:4px}
+details summary{cursor:pointer;font-size:.9rem;color:var(--accent);font-weight:600}
+details p{margin:.6rem 0 0;font-size:.93rem}
+.anchor{font-size:.76rem;color:var(--ink-3);margin:-.5rem 0 1.3rem;padding-left:.1rem}
+.anchor b{font-weight:600;letter-spacing:.04em}
+.tag{display:inline-block;font-size:.68rem;padding:0 .38em;margin-left:.25em;border:1px solid var(--line);border-radius:3px;color:var(--ink-3);vertical-align:.12em;letter-spacing:.04em}
+.quiz{margin:1rem 0;padding:1rem 1.2rem;background:var(--card);border:1px solid var(--line);border-radius:4px}
+.quiz .q{font-weight:600;margin-bottom:.7rem;font-size:.95rem}
+.quiz label{display:block;padding:.35rem 0;font-size:.9rem;cursor:pointer}
+.quiz .fb{font-size:.85rem;margin-top:.5rem;min-height:1.2em}
+.quiz .fb.ok{color:var(--ok)}
+.quiz .fb.bad{color:var(--bad)}
+.check{margin-top:3rem;padding:1.2rem 1.4rem;background:var(--card);border:1px solid var(--line);border-radius:6px}
+.check h3{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 .7rem;font-weight:600}
+.check ol{margin:0;padding-left:1.2rem;font-size:.9rem}
+.check li{margin:.45rem 0}
+.perish{margin-top:1.2rem;padding:1rem 1.2rem;background:#fdf6e9;border-radius:6px;font-size:.88rem}
+.perish h3{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#8a6a1f;margin:0 0 .5rem;font-weight:600}
+.src{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--ink-2)}
+.src a{color:var(--accent)}
+footer{margin-top:3rem;font-size:.82rem;color:var(--ink-3);border-top:1px solid var(--line);padding-top:1rem}
+.nav{display:flex;justify-content:space-between;font-size:.85rem;margin-top:1.5rem}
+.nav a{color:var(--accent);text-decoration:none}
+@media print{
+  body{background:#fff}
+  .wrap{padding:0;max-width:none}
+  details{page-break-inside:avoid}
+  details[open] summary{display:none}
+  .quiz,.check,.perish{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="meta">
+    <span>M01 · 模块标题</span>
+    <span>Lesson 0001</span>
+  </header>
+
+  <h1>课程标题：一句话说清这一课教什么</h1>
+  <p class="sub">预计 8 分钟 · 前置：概念 A（L3）</p>
+
+  <div class="goal">
+    <b>这一课之后你能</b>
+    不用材料，说出 X 与 Y 的两个关键差别，并各举一个反例。
+  </div>
+
+  <article>
+    <h2>它解决什么问题</h2>
+    <p class="lead">先给痛点，不给定义。</p>
+    <p class="anchor"><b>来源</b>　[3]《书名》第 3 章</p>
+
+    <h2>它是什么</h2>
+    <p>一句话定义，不超过 25 字。</p>
+    <pre><code>最小可运行示例</code></pre>
+    <p class="anchor"><b>来源</b>　[1] 现行标准 第 5 章　[2] 官方文档</p>
+
+    <h2>和相邻概念的区别</h2>
+    <table>
+      <tr><th>维度</th><th>X</th><th>Y</th></tr>
+      <tr><td>触发条件</td><td></td><td></td></tr>
+      <tr><td>结果</td><td></td><td></td></tr>
+    </table>
+    <p class="anchor"><b>来源</b>　[3] 第 3 章 3.2（两说一致，已交叉）</p>
+
+    <h2>常见误区</h2>
+    <div class="warn">
+      <strong>新手会以为</strong>：……<br>
+      <strong>实际是</strong>：……<br>
+      <strong>因为</strong>：……
+    </div>
+    <p class="anchor"><b>来源</b>　[4] 培训材料（一手）</p>
+
+    <h2>动手练一次</h2>
+    <p>练习描述：5 分钟内能做完，立刻能判对错。</p>
+    <details>
+      <summary>看参考做法（先自己做）</summary>
+      <p>参考解法 + 判定标准。</p>
+    </details>
+
+    <h2>需要标风险的地方</h2>
+    <p>这里是<strong>建议</strong><span class="tag">建议</span>：初学先按「看限量等级就够」记，够用。</p>
+    <p>这条是<strong>推断</strong><span class="tag">推断</span>：若实际含水率高于 12%，参数需下调。<em>可推翻条件：若标准明文允许该区间，则本推断不成立。</em></p>
+    <p>这条只有一个来源：<span class="tag">单源</span>，不宜当定论。</p>
+
+    <h2>自检</h2>
+
+    <div class="quiz" data-answer="b">
+      <div class="q">1. 基础题：……</div>
+      <label><input type="radio" name="q1" value="a"> 选项 A（与 B 字数接近）</label>
+      <label><input type="radio" name="q1" value="b"> 选项 B（与 A 字数接近）</label>
+      <label><input type="radio" name="q1" value="c"> 选项 C（与 A 字数接近）</label>
+      <label><input type="radio" name="q1" value="d"> 选项 D（与 A 字数接近）</label>
+      <div class="fb" data-ok="对。因为……" data-bad="不对。正确项是 B，因为……"></div>
+    </div>
+
+    <div class="quiz" data-answer="d">
+      <div class="q">2. 变式题：换条件后……</div>
+      <label><input type="radio" name="q2" value="a"> 选项 A</label>
+      <label><input type="radio" name="q2" value="b"> 选项 B</label>
+      <label><input type="radio" name="q2" value="c"> 选项 C</label>
+      <label><input type="radio" name="q2" value="d"> 选项 D</label>
+      <div class="fb" data-ok="对。因为……" data-bad="不对。正确项是 D，因为……"></div>
+    </div>
+
+    <div class="quiz" data-answer="c">
+      <div class="q">3. 纠错题：下面哪一步是错的？</div>
+      <label><input type="radio" name="q3" value="a"> 选项 A</label>
+      <label><input type="radio" name="q3" value="b"> 选项 B</label>
+      <label><input type="radio" name="q3" value="c"> 选项 C</label>
+      <label><input type="radio" name="q3" value="d"> 选项 D</label>
+      <div class="fb" data-ok="对。因为……" data-bad="不对。正确项是 C，因为……"></div>
+    </div>
+  </article>
+
+  <div class="check">
+    <h3>30 秒内你能自己查证的三条</h3>
+    <ol>
+      <li>「X 的定义是 ___」→ 打开 [1] 搜关键词，看是否原话一致。</li>
+      <li>「该限量是 ___」→ 查 [1] 第 5 章表格，核对数值与单位。</li>
+      <li>「Y 在 ___ 条件下失效」→ 查 [2] 对应章节，确认条件表述。</li>
+    </ol>
+    <p style="font-size:.85rem;color:var(--ink-3);margin:.8rem 0 0">任一条对不上，本课按失效处理，先修来源再往下学。</p>
+  </div>
+
+  <div class="perish">
+    <h3>易过期（半年后需复查）</h3>
+    <ul style="margin:0;padding-left:1.2rem">
+      <li>标准编号与版本：GB ___（现行版 YYYY）</li>
+      <li>工具版本 / API 名称：___ v_X.Y</li>
+      <li>价格、政策、税率等外部参数：___</li>
+    </ul>
+  </div>
+
+  <div class="src">
+    <strong>主源</strong>：<a href="#">[1] 标题</a>（级 1 · 核验 2026-10-30）　
+    <a href="#">[2]</a>　<a href="#">[3]</a>
+  </div>
+
+  <nav class="nav">
+    <a href="#">← 上一课</a>
+    <a href="../reference/<速查件实际文件名>.html">速查件</a>
+    <!-- 必须改成实际文件名。不要用 index.html——状态模型里没有这个文件，会断链 -->
+    <a href="#">下一课 →</a>
+  </nav>
+
+  <footer>
+    这一课有哪里没讲清？直接告诉老师哪一段卡住——那一段就是下一课要补的地方。
+  </footer>
+</div>
+
+<script>
+document.querySelectorAll('.quiz').forEach(function(box){
+  var fb = box.querySelector('.fb'), ans = box.dataset.answer;
+  box.querySelectorAll('input[type=radio]').forEach(function(r){
+    r.addEventListener('change', function(){
+      var ok = (r.value === ans);
+      fb.textContent = ok ? fb.dataset.ok : fb.dataset.bad;
+      fb.className = 'fb ' + (ok ? 'ok' : 'bad');
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+# 复制到 study/<topic>/syllabus.yaml 后按实际填写。
+# 校验：3-12 模块（推荐 5-12）；prereq 无环；budget_hours 之和 <= horizon_weeks*weekly_hours*0.8
+# 每模块必须写 why_prereq（前置依据）与 not_covered（本模块不覆盖什么）
+
+topic:
+  name: "<领域名>"
+  goal: "学完之后，我能在 ____ 场景下，独立完成 ____，且达到 ____ 水平。"
+  horizon_weeks: 4
+  started_at: "YYYY-MM-DD"      # 必填：停更三档（逾期 1/3/6 周）要靠它算
+  weekly_hours: 3
+  language: zh
+  mode: standard              # standard | exam
+  success: "一个领域从 M01 走到 M05"
+
+# ── 知识基准（深度调研的产出，见 references/06-sources.md 第二、三节）──
+anchor:
+  type: textbook              # textbook（稳定学科）| official（快变领域）| standard（强监管）
+  basis: "《书名》第 X 版目录 + 《书名2》第 Y 版目录 + 课程标准 YYYY"
+  cross_checked: 0            # 已交叉结论数（≥2 独立来源且一致）
+  single_source: 0            # 单源结论数（必须在课程里标「单源」）
+  disputed: 0                 # 存在分歧的结论数（两说都要写出来）
+
+modules:
+  - id: M01
+    title: "能说出问题与边界"
+    why: "对应 MISSION 的哪一条"
+    prereq: []
+    why_prereq: ""
+    nice_to_have: []
+    concepts:
+      - "概念A"
+      - "概念B"
+    core: ["概念A"]            # 前置校验只看这些；不写则默认取 concepts 前两个
+    deliverable: "一张对比表 / 一段可运行代码 / 5 句总结"
+    budget_hours: 1.5
+    check: "不用材料，说出 A 与 B 的两个差别并各举一例"
+    not_covered: "本模块不覆盖 ___，原因是 ___"
+    textbook_ref: "《书名》第 3 章 3.1-3.4"     # 骨架出处，便于做差集
+    status: pending           # pending | doing | done
+
+  - id: M02
+    title: "能改对一个错例"
+    why: ""
+    prereq: [M01]
+    why_prereq: "不知道 M01 的 ___ 就看不懂这里为什么需要 ___"
+    nice_to_have: []
+    concepts: []
+    core: []                     # 前置校验只看这些；不写则默认取 concepts 前两个
+    deliverable: ""
+    budget_hours: 1.5
+    check: ""
+    not_covered: ""
+    textbook_ref: ""
+    status: pending
+
+milestones:
+  - after: [M02, M03]
+    cumulative_check: "混合测验 8-10 题，含 2 题跨模块组合"
+
+# ── 差集记录（防「假全面」，见 references/01-system-design.md 第三节）──
+# 基准（教材目录/课标）里有、本大纲里没有的条目，必须逐条落到这里
+coverage_gap:
+  - item: "《书名》第 7 章 内容"
+    decision: not_covered      # added | not_covered
+    reason: "超出 MISSION 声明范围；已在 M04 的 not_covered 里说明"
+
+# ── 来源区（替代独立的 resources.md）────────────────────
+# 优先级：0 一手材料 > 1 现行标准 > 2 官方文档 > 3 教材/课标 > 4 权威课程 > 5 最佳实践
+resources:
+  first_hand: []              # 级 0：厂标、检测报告、工艺文件、内部材料
+  standard: []                # 级 1：GB / ISO / 行业标准
+  primary: []                 # 级 2：官方文档、原始规范
+  textbook: []                # 级 3：教材、课程标准、考试大纲
+  secondary: []               # 级 4：权威课程、经典著作
+  tertiary: []                # 级 5：最佳实践、成熟教程
+  unverified: []              # 待核验：说法不一致或找不到来源

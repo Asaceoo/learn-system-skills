@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>速查 · 主题</title>
+<style>
+:root{--ink:#1a1a1a;--ink-2:#4a4a4a;--ink-3:#767676;--line:#e2e2e2;--bg:#fbfaf8;--accent:#8a5a2b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.65;
+  font-family:"Iowan Old Style","Palatino Linotype",Georgia,"Songti SC",serif}
+.wrap{max-width:56rem;margin:0 auto;padding:3rem 1.5rem 5rem}
+h1{font-size:1.6rem;margin:0 0 .3rem;font-weight:600}
+.sub{color:var(--ink-3);font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2rem}
+h2{font-size:1rem;margin:2.2rem 0 .7rem;font-weight:600;color:var(--accent);letter-spacing:.02em}
+table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.6rem 0 1.4rem}
+th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+code{font-family:"SF Mono",Consolas,monospace;font-size:.86em;background:#f2efe9;padding:.1em .3em;border-radius:3px}
+pre{background:#f5f2ec;border-left:2px solid var(--accent);padding:.9rem 1rem;overflow:auto;font-size:.84rem;line-height:1.55}
+.cols{columns:2;column-gap:2rem}
+@media (max-width:720px){.cols{columns:1}}
+dt{font-weight:600;font-size:.9rem;margin-top:.8rem}
+dd{margin:.15rem 0 0;color:var(--ink-2);font-size:.88rem}
+footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.8rem;color:var(--ink-3)}
+@media print{body{background:#fff}.wrap{padding:0;max-width:none}h2{page-break-after:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>速查 · 主题名</h1>
+  <p class="sub">配套 M01-M03 · 更新 2026-10-30</p>
+
+  <h2>核心对照</h2>
+  <table>
+    <tr><th>维度</th><th>A</th><th>B</th><th>何时用</th></tr>
+    <tr><td></td><td></td><td></td><td></td></tr>
+  </table>
+
+  <h2>语法 / 命令 / 公式</h2>
+  <pre><code>最小可复制的片段</code></pre>
+
+  <h2>术语表</h2>
+  <dl class="cols">
+    <dt>术语一</dt>
+    <dd>一句话定义 + 一个反例。</dd>
+  </dl>
+
+  <h2>决策路径</h2>
+  <pre><code>if 条件A → 用 X
+else if 条件B → 用 Y
+else → 先测再决定</code></pre>
+
+  <footer>速查件只放「压缩后的结论」，不放推导。推导在对应 lesson 里。</footer>
+</div>
+</body>
+</html>
