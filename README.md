@@ -2,7 +2,7 @@
 
 **一个把「随便学学」变成「有图谱、有前置、有验收」的学习控制层。**
 
-版本：v0.7.2　|　许可：MIT　|　适用：Claude Code / Codex / WorkBuddy 等支持 `SKILL.md` 的 Agent
+版本：v0.7.3　|　许可：MIT　|　适用：Claude Code / Codex / WorkBuddy 等支持 `SKILL.md` 的 Agent
 
 [用户手册](docs/USER_GUIDE.md) · [技术手册](docs/TECHNICAL.md) · [Releases](../../releases)
 
@@ -130,7 +130,7 @@ graph LR
 
 ```bash
 # 方式一：解压 zip（推荐）
-unzip learn-system-v0.7.2.zip -d ~/.workbuddy/skills/
+unzip learn-system-v0.7.3.zip -d ~/.workbuddy/skills/
 # Windows: 解压到 C:\Users\<你>\.workbuddy\skills\
 
 # 方式二：从仓库复制
@@ -280,5 +280,5 @@ python tools/review_graph.py    # 只跑图谱专项（34 项）
 
 ## 十二、版本与构建
 
-- 当前版本 **v0.6.1**，技能包 `dist/learn-system-v0.7.2.zip`
+- 当前版本 **v0.6.1**，技能包 `dist/learn-system-v0.7.3.zip`
 - 构建：`python build.py [--bump patch|minor|major|--no-bump]` —— 自动递增版本号 → 同步三份文档 → 部署到已装副本 → 打包

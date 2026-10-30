@@ -78,14 +78,25 @@ for m in re.finditer(r"铁律\s*(\d+)", sk):
     if law_start <= m.start() <= law_end:
         continue          # 铁律正文内部的交叉引用是合法的，不参与判定
     ctx = sk[max(0, m.start() - 60): m.end() + 20]
+    # 豁免语境（「不适用」「例外」「豁免」）是在解除该条铁律，不是引用它
+    if any(w in ctx for w in ("不适用", "例外", "豁免")):
+        continue
     if n not in rules:
         chk(False, f"引用铁律 {n} 存在", "编号越界")
         continue
+    # 优先采信作者写的「铁律 N（简述）」括号提示——这是最精确的语义标注
+    tail = sk[m.end(): m.end() + 30]
+    mb = re.match(r"\s*[（(]([^）)]{1,24})[）)]", tail)
+    scope = mb.group(1) if mb else ctx
     scored = []
     for rid, keys in SYN.items():
-        hit = [k for k in keys if k in ctx]
+        hit = [k for k in keys if k in scope]
         if hit:
             scored.append((len(hit), rid, hit))
+    if mb and scored:
+        pass                     # 括号提示有命中 → 直接用它的结果
+    elif mb is None:
+        scored = [(c, r, h) for c, r, h in scored]
     scored.sort(key=lambda x: (-x[0], -sum(len(k) for k in x[2]), x[1]))   # 并列时取更具体的
     best = scored[0][1] if scored else None
     chk(best == n, f"L{m.start()} 引用『铁律 {n}』指对",
