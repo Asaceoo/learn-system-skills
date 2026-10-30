@@ -31,6 +31,23 @@ modules:
       - "概念A"
       - "概念B"
     core: ["概念A"]            # 前置校验只看这些；不写则默认取 concepts 前两个
+    # ── 概念卡（铁律 18：七字段齐全，见 references/09-knowledge-graph.md）──
+    # name 集合必须与 concepts 完全一致；2D/3D 图落在 graph.html
+    concept_cards:
+      - name: "概念A"
+        prereq: []                    # 概念级前置（可跨模块）
+        related: ["概念B"]             # 相关：互相影响 / 常一起用 / 易混淆
+        assumption: "前提是 ___；不成立时会 ___"
+        first_principle: "追到 ___ 定律：___ → 推导方向 ___"
+        plain: "就像 ___（类比要对齐机制，不是只对齐表象）"
+        extend: "学完可往 ___ 走"
+      - name: "概念B"
+        prereq: ["概念A"]
+        related: []
+        assumption: ""
+        first_principle: ""
+        plain: ""
+        extend: ""
     deliverable: "一张对比表 / 一段可运行代码 / 5 句总结"
     budget_hours: 1.5
     check: "不用材料，说出 A 与 B 的两个差别并各举一例"
@@ -46,6 +63,7 @@ modules:
     nice_to_have: []
     concepts: []
     core: []                     # 前置校验只看这些；不写则默认取 concepts 前两个
+    concept_cards: []            # 与 concepts 一一对应，七字段见 references/09
     deliverable: ""
     budget_hours: 1.5
     check: ""

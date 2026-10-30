@@ -49,7 +49,7 @@ rules = {}
 for m in re.finditer(r"^(\d+)\. \*\*(.+?)\*\*", sk, re.M):
     rules[int(m.group(1))] = m.group(2)
 print(f"  解析到 {len(rules)} 条铁律")
-chk(len(rules) == 17, "铁律 17 条", f"实 {len(rules)}")
+chk(len(rules) == 18, "铁律 18 条", f"实 {len(rules)}")
 
 # 每条铁律的语义关键词（正文抽取 + 同义词补充），用于判定引用是否指对
 SYN = {
@@ -244,6 +244,15 @@ chk("复习档位" not in all_txt, "全局无『复习档位』残留（已改�
 print("\n=== N. 覆盖度检查时机 ==")
 chk(re.search(r"覆盖度.*?(每课|模块结束)", sk, re.S) is not None,
     "定义了覆盖度检查时机", "铁律 4 要求覆盖度验收，但没说什么时候查")
+
+print("\n=== V. 知识图谱总览功能完整性 ===")
+_v = os.path.join(ROOT, "tools", "review_graph.py")
+if os.path.exists(_v):
+    import subprocess
+    if subprocess.call([sys.executable, _v]) != 0:
+        FAILS.append("图谱 V 段有 FAIL（见上方 V 段输出）")
+else:
+    FAILS.append("缺 tools/review_graph.py")
 
 print("\n=== T. 弹窗（开课三问）功能完整性 ===")
 _t = os.path.join(ROOT, "tools", "review_dialog.py")

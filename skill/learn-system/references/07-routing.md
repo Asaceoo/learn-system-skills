@@ -10,7 +10,7 @@
 |---|---|---|
 | 讲透一个概念，要图 / 动画 | `visual-knowledge-tutor` | 用 ASCII 图 + 文字讲透，并告知「动画版需切到前者」 |
 | 一整套领域 HTML 手册 | `knowledge-handbook-builder` | 用 `reference/` 出一份速查件替代 |
-| 交互课件 / 知识图谱 | `teachany` | 不接活，明确告知这是另一条产线 |
+| 交互课件 / 可视化大屏 | `teachany` | 不接活，明确告知这是另一条产线。**注意区分**：本 skill 流程 A 第 4 步出的是**依赖图谱**（概念的前置/相关），是自己产出的，不外包 |
 | 已有文件转课程 | `course-generator` | 先转成文字大纲，再回到本 skill 建 DAG |
 | 只要连续课程、不要掌握度 | `teach` / `matt-teach` | 允许，但本 skill 不接管其状态 |
 

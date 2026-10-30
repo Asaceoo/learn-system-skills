@@ -34,7 +34,7 @@
 
 ```
 learn-system/
-├── SKILL.md                      # 入口：铁律 17 条、状态模型、主流程、路由表
+├── SKILL.md                      # 入口：铁律 18 条、状态模型、主流程、路由表
 ├── references/
 │   ├── 01-system-design.md       # 教材目录做覆盖基准、差集、前置 DAG + 依据、M01 复审
 │   ├── 02-teaching.md            # 流畅度 vs 存储强度、ZPD、难度分配、五视角

@@ -42,7 +42,7 @@ disable-model-invocation: false
 全程生效。被要求跳过时先说清代价，再按用户意愿执行并记录偏离。
 
 1. **一次只产出一课。** 出完停下等反馈，绝不批量。
-2. **调研先于出课，且教材/标准锚定。** 基准按 `references/06-sources.md` 选：稳定学科用教材目录 + 课程标准，快变领域用官方文档，强监管领域用现行标准。找不到来源标「待核验」，不许编。**调研是 topic 级的：开课时做一次**。后续课引用来源区之外的新来源，须先补录进 `resources` 再引用。行业经验值（无标准明文）归入「建议」并标「单源」。
+2. **调研先于出课，且教材/标准锚定。** 基准怎么选见 `references/06-sources.md`。找不到来源标「待核验」，不许编。**调研是 topic 级的：开课时做一次**；后续课引用来源区外的新来源，须先补录 `resources` 再引用。
 3. **断言分三级。** 事实（带小节级来源锚点）/ 建议（标明是建议）/ 推断（写出可推翻条件），不许混写。
 4. **覆盖度要验收。** 每个 `concepts` 必须出现在某课正文或速查件；与教材目录做差集，教材有而没讲的写进 `not_covered` 并给理由；每模块写「不覆盖什么」。
 5. **开课前必须有 MISSION**：为什么学 / 什么算成功 / 不学什么（可留待大纲确认时补）。
@@ -56,8 +56,9 @@ disable-model-invocation: false
 13. **出题遵守零提示**，见 `references/03-assessment.md`。
 14. **复练不许重问原题**，必须换语境。
 15. **日期禁止心算**：先用 `date +%F` 取当天再加减。手算已实测出过错。
-16. **不往个人目录根下写文件**：`~/Desktop`、`~/Downloads`、`~/Documents`、`~`、`/` 一律不建，退回 `~/Documents/learn-system/<topic>/` 并告知。
+16. **不往个人目录根下写文件**：`~/Desktop`、`~/Downloads`、`~`、`/` 一律不建，退回 `~/Documents/learn-system/<topic>/`。
 17. **无证据不得升档，也不得为了让表格好看而给档位。** 用户未答自检时保持「已上未评」。与铁律 10 冲突时以本条为准。
+18. **每个概念须有图谱六字段 + 2D/3D 两图，缺一不算覆盖**，细则见 `references/09-knowledge-graph.md`。
 
 ## 状态模型
 
@@ -116,7 +117,7 @@ study/<topic>/
 
 1. 读 `MISSION.md`；缺失 → 问三件事：为什么学、什么算成功、每周几小时。**用弹窗卡片**（`show_widget`，规范先取 `widget_guidelines`）：每问 2-4 个可点选项、末尾汇总行 + 确认按钮；照 `templates/intake-dialog.template.html` 画，细则见 `references/08-intake-dialog.md`。模式并入第 3 题，不做第四问。
 2. **深度调研**（`references/06-sources.md`）：定基准（教材/官方文档/现行标准）→ 拿 2 个独立目录 + 1 份课程标准 → 关键结论做 ≥2 源交叉 → 记版次年份。结果写进 `syllabus.yaml` 的 `anchor` 与 `resources`。主源不足 3 条可开链接时不得出课。
-3. 出大纲：按 `references/01-system-design.md` 拆 3-12 模块（推荐 5-12），每个模块必须有 `prereq`、前置依据、概念、产出物、预算、验收。用 `templates/syllabus.template.yaml`。
+3. 出大纲：按 `references/01-system-design.md` 拆 3-12 模块（推荐 5-12），每个模块必须有 `prereq`、前置依据、概念、产出物、预算、验收。用 `templates/syllabus.template.yaml`。**大纲确认后出图谱**（`references/09-knowledge-graph.md`）：每概念补七字段 + `graph.html`（2D、等距 3D）。
 4. 用户确认大纲后，出一课。走流程 B。
 
 ### B 出一课
@@ -127,7 +128,7 @@ study/<topic>/
    - `mastery.md`：本课概念写行——**骨架行已存在时更新该行，不要插重复行**；无证据写「已上未评」；刷新顶部三行；变更日志记一条
    - `review.md`：新概念入队，复习档 0，到期 = 今天 + 1 天
    - **概念名必须与 `mastery.md` 完全一致**，不得自造同义名；一个概念拆多课时仍只占一行；粒度以 `syllabus.yaml` 的 `concepts` 为准，正文不得自行拆并
-4. 写 `lessons/NNNN-<name>.html`：单文件、离线可开、可打印。结构按 `templates/lesson.template.html`。命名：课用中文概念名（如 `0003-冷却时间.html`），速查件 `<概念名>速查.html`，与既有文件一致。
+4. 写 `lessons/NNNN-<name>.html`：单文件、离线可开、可打印，结构按 `templates/lesson.template.html`。命名：课用中文概念名（如 `0003-冷却时间.html`），速查件 `<概念名>速查.html`。
 5. 接导航：本课「上一课」指向 NNNN-1，并把上一课的「下一课」改成指向本课——**两边都要改**。**下一课尚未产出时写纯文本「下一课：NNNN 名称（待产出）」，不要写 href**——写 href 就是断链。
 6. 课内必含：一个能力增量、一个立即可做的练习、3-5 题零提示自检、一条主源链接、一个「问老师」入口。
 7. 只在压出可长期回看的知识单元（对照表/术语/决策路径）时才写 `reference/<概念名>速查.html`；纯概念讲解课**可以不写**，课内就**不要链速查件**。**写了才允许链**。
