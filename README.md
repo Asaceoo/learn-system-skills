@@ -2,7 +2,7 @@
 
 **一个把「随便学学」变成「有图谱、有前置、有验收」的学习控制层。**
 
-版本：v0.7.1　|　许可：MIT　|　适用：Claude Code / Codex / WorkBuddy 等支持 `SKILL.md` 的 Agent
+版本：v0.7.2　|　许可：MIT　|　适用：Claude Code / Codex / WorkBuddy 等支持 `SKILL.md` 的 Agent
 
 [用户手册](docs/USER_GUIDE.md) · [技术手册](docs/TECHNICAL.md) · [Releases](../../releases)
 
@@ -130,7 +130,7 @@ graph LR
 
 ```bash
 # 方式一：解压 zip（推荐）
-unzip learn-system-v0.7.1.zip -d ~/.workbuddy/skills/
+unzip learn-system-v0.7.2.zip -d ~/.workbuddy/skills/
 # Windows: 解压到 C:\Users\<你>\.workbuddy\skills\
 
 # 方式二：从仓库复制
@@ -255,15 +255,15 @@ graph LR
 
 ---
 
-## 十、自检：120 项审计
+## 十、自检：127 项审计
 
 ```bash
-python learn-system-audit.py    # 主审计：120 项（含弹窗 T 段、图谱 V 段、双副本 U 段）
+python learn-system-audit.py    # 主审计：127 项（含弹窗 T 段、图谱 V 段、双副本 U 段）
 python tools/review_dialog.py   # 只跑弹窗专项（24 项）
-python tools/review_graph.py    # 只跑图谱专项（27 项）
+python tools/review_graph.py    # 只跑图谱专项（34 项）
 ```
 
-覆盖：包完整性、frontmatter、**18 条铁律交叉引用是否指对**、跨文件术语一致、`syllabus` 结构（DAG 无环/预算/字段/概念卡）、模板无断链、工作区产物（课/速查/掌握度/复习/日期算术/口径一致）、HTML 合法性、弹窗 24 项、图谱 27 项、双副本一致性。
+覆盖：包完整性、frontmatter、**18 条铁律交叉引用是否指对**、跨文件术语一致、`syllabus` 结构（DAG 无环/预算/字段/概念卡）、模板无断链、工作区产物（课/速查/掌握度/复习/日期算术/口径一致）、HTML 合法性、弹窗 24 项、图谱 34 项、双副本一致性。
 
 **审错对象 = 全绿也是假的。** U 段会逐文件比对仓库副本与已安装副本，不一致直接 FAIL。
 
@@ -280,5 +280,5 @@ python tools/review_graph.py    # 只跑图谱专项（27 项）
 
 ## 十二、版本与构建
 
-- 当前版本 **v0.6.1**，技能包 `dist/learn-system-v0.7.1.zip`
+- 当前版本 **v0.6.1**，技能包 `dist/learn-system-v0.7.2.zip`
 - 构建：`python build.py [--bump patch|minor|major|--no-bump]` —— 自动递增版本号 → 同步三份文档 → 部署到已装副本 → 打包

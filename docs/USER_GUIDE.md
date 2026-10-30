@@ -1,6 +1,6 @@
 # learn-system 用户手册
 
-版本：v0.7.1　|　面向：使用这个 Skill 学习的人　|　技术细节见 `TECHNICAL.md`
+版本：v0.7.2　|　面向：使用这个 Skill 学习的人　|　技术细节见 `TECHNICAL.md`
 
 ---
 
@@ -21,7 +21,7 @@
 
 ```bash
 # 推荐：解压 zip
-unzip learn-system-v0.7.1.zip -d ~/.workbuddy/skills/
+unzip learn-system-v0.7.2.zip -d ~/.workbuddy/skills/
 ```
 
 Windows 解压到 `C:\Users\<你>\.workbuddy\skills\`，确认路径是：
@@ -295,7 +295,7 @@ modules:
 
 ```bash
 python build.py --bump patch    # 递增版本 + 同步文档 + 部署到已装副本 + 打包
-python learn-system-audit.py    # 120 项自检，退出码非 0 即有问题
+python learn-system-audit.py    # 127 项自检，退出码非 0 即有问题
 ```
 
 **注意**：仓库副本（`skill/learn-system/`）和已安装副本（`~/.workbuddy/skills/learn-system/`）是两个独立目录。

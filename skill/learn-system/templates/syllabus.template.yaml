@@ -31,7 +31,7 @@ modules:
       - "概念A"
       - "概念B"
     core: ["概念A"]            # 前置校验只看这些；不写则默认取 concepts 前两个
-    # ── 概念卡（铁律 18：七字段齐全，见 references/09-knowledge-graph.md）──
+    # ── 概念卡（铁律 18：六字段 + 2D/3D 两图，见 references/09-knowledge-graph.md）──
     # name 集合必须与 concepts 完全一致；2D/3D 图落在 graph.html
     concept_cards:
       - name: "概念A"
@@ -63,7 +63,7 @@ modules:
     nice_to_have: []
     concepts: []
     core: []                     # 前置校验只看这些；不写则默认取 concepts 前两个
-    concept_cards: []            # 与 concepts 一一对应，七字段见 references/09
+    concept_cards: []            # 与 concepts 一一对应，六字段见 references/09
     deliverable: ""
     budget_hours: 1.5
     check: ""

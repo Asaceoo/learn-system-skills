@@ -79,7 +79,9 @@
   <!-- ↓↓↓ 复制这张卡，每个概念一张 ↓↓↓ -->
   <div class="card">
     <h3>概念A<span class="lv done">L3</span></h3>
-    <div class="mod">M01 · 前置：— · 相关：概念B</div>
+    <div class="mod">M01</div>
+    <div class="row"><b>前置</b><span>无（入口概念）</span></div>
+    <div class="row"><b>相关</b><span>概念B（常一起调）</span></div>
     <div class="row"><b>前提假设</b><span>前提是 ___；不成立时会 ___</span></div>
     <div class="row"><b>第一性原理</b><span>追到 ___ 定律/守恒律：___ → 推导方向 ___</span></div>
     <div class="row"><b>通俗说明</b><span>就像 ___（类比要对齐机制）</span></div>
@@ -113,7 +115,8 @@
 </div>
 
 <div class="nav">
-  上一课：{{PREV}}　·　下一课：{{NEXT}}　·　<a href="mastery.md">掌握档总表</a>
+  上一课：{{PREV}}　·　下一课：{{NEXT}}　·　掌握档总表：{{MASTERY}}
+  <!-- 课程尚未产出时，三个占位符一律写纯文本「待产出」，不要写 href（写了就是断链） -->
 </div>
 
 </body>

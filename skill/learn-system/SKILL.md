@@ -117,7 +117,7 @@ study/<topic>/
 
 1. 读 `MISSION.md`；缺失 → 问三件事：为什么学、什么算成功、每周几小时。**用弹窗卡片**（`show_widget`，规范先取 `widget_guidelines`）：每问 2-4 个可点选项、末尾汇总行 + 确认按钮；照 `templates/intake-dialog.template.html` 画，细则见 `references/08-intake-dialog.md`。模式并入第 3 题，不做第四问。
 2. **深度调研**（`references/06-sources.md`）：定基准（教材/官方文档/现行标准）→ 拿 2 个独立目录 + 1 份课程标准 → 关键结论做 ≥2 源交叉 → 记版次年份。结果写进 `syllabus.yaml` 的 `anchor` 与 `resources`。主源不足 3 条可开链接时不得出课。
-3. 出大纲：按 `references/01-system-design.md` 拆 3-12 模块（推荐 5-12），每个模块必须有 `prereq`、前置依据、概念、产出物、预算、验收。用 `templates/syllabus.template.yaml`。**大纲确认后出图谱**（`references/09-knowledge-graph.md`）：每概念补七字段 + `graph.html`（2D、等距 3D）。
+3. 出大纲：按 `references/01-system-design.md` 拆 3-12 模块（推荐 5-12），每个模块必须有 `prereq`、前置依据、概念、产出物、预算、验收。用 `templates/syllabus.template.yaml`。**大纲确认后出图谱**（`references/09-knowledge-graph.md`）：每概念补齐八项 + `graph.html`（2D、等距 3D）。
 4. 用户确认大纲后，出一课。走流程 B。
 
 ### B 出一课

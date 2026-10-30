@@ -257,6 +257,62 @@ if os.path.exists(syp):
     except Exception as e:
         chk(False, "V26 syllabus.yaml 可解析", str(e))
 
+
+# --- V28 口径唯一：全局不得再有「七字段」（笔误说明句除外）---
+bad7f = []
+for nm, txt in [("SKILL.md", sk), ("09 细则", r9),
+                ("graph 模板", tpl), ("syllabus 模板", syl)]:
+    for ln in txt.splitlines():
+        if "七字段" in ln and "笔误" not in ln and "早期" not in ln:
+            bad7f.append(nm + ": " + ln.strip()[:40])
+chk(
+    not bad7f,
+    "V28 全库口径唯一（不再有「七字段」的说法）",
+    "四套说法并存时 AI 只能靠猜：" + str(bad7f[:2]),
+)
+
+# --- V29 09 的步号要与 SKILL.md 实际流程一致 ---
+a_steps = re.findall(r"^### ([A-E]) (.*)$", sk, re.M)
+has_graph_in_a3 = bool(re.search(r"^3\..{0,200}图谱", sk, re.M))
+chk(
+    ("第 3 步" in r9) and has_graph_in_a3,
+    "V29 09 说的步号 = SKILL.md 里图谱实际所在的步号（第 3 步）",
+    "09 写第 4 步但实际在第 3 步 = AI 会去找一个不存在的步骤",
+)
+
+# --- V30 模板卡片六行（前置/相关各占一行）---
+chk(
+    ('<b>前置</b>' in tpl and '<b>相关</b>' in tpl),
+    "V30 模板卡片里「前置」「相关」各占一行（不再挤在标题行）",
+    "细则要求六行、模板只有四行 = AI 照模板画就欠两项",
+)
+
+# --- V31 模板导航不得硬编码会断的链接 ---
+chk(
+    not re.search(r'href="mastery\.md"', tpl),
+    "V31 模板导航不硬编码 mastery.md 链接（未建文件时就是断链）",
+    "图谱先于课程产出，此时链 mastery.md 必断",
+)
+
+# --- V32 重合边 / 无来源数值 的处置要写清 ---
+chk(
+    ("既在" in r9 and "related" in r9) or "不重复画虚线" in r9,
+    "V32 细则规定了 prereq 与 related 重合时怎么画",
+    "不规定 = AI 把相关全画成边，图谱变成全连接网没有信息量",
+)
+chk(
+    "待核验" in r9,
+    "V33 细则规定了无来源数值要标待核验并记 coverage_gap",
+    "图注里写死没来源的数字 = 违反铁律 2/3，且图最容易被当成权威",
+)
+
+# --- V34 脚本生成不算降级 ---
+chk(
+    ("常规手段" in r9 or "不是降级" in r9),
+    "V34 细则明确脚本批量生成不属于降级",
+    "写成「概念太多才允许」= 6 个概念时 AI 会犹豫，或改成手画粗制图",
+)
+
 print("\n" + "=" * 58)
 if FAIL:
     print("FAIL %d 项：" % len(FAIL))
