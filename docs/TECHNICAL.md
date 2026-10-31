@@ -1,6 +1,6 @@
 # learn-system 技术手册
 
-版本：v0.7.4　|　面向：实现者、审查者、想改这个 Skill 的人　|　使用者请看 `USER_GUIDE.md`
+版本：v0.7.5　|　面向：实现者、审查者、想改这个 Skill 的人　|　使用者请看 `USER_GUIDE.md`
 
 ---
 

@@ -1,9 +1,9 @@
 {
   "skill_dir": "C:\\Users\\iamly\\WorkBuddy\\2026-10-30-23-04-03\\skill\\learn-system",
   "skill_name": "SKILL",
-  "scanned_at": "2026-10-31T03:59:18.366361+08:00",
+  "scanned_at": "2026-10-31T08:32:09.924999+08:00",
   "summary": {
-    "total_soft_rules": 3,
+    "total_soft_rules": 1,
     "hardening_candidates": 0,
     "t1_wording_strengthen": 0,
     "t2_pf_injection": 0,
@@ -12,20 +12,8 @@
   },
   "soft_rules": [
     {
-      "line": 11,
-      "text": "- **注意**：本 skill 是控制层，不重复造重活。单概念可视化、整域手册、交互课件分别**建议**切到 visual-knowledge-tutor、knowledge-handbook-builder、teachany——但那种跨 skill 委派并不可靠，所以本 skill 自带纯文字兜底。",
-      "rule_type": "建议句式",
-      "hardenable": true
-    },
-    {
-      "line": 46,
+      "line": 45,
       "text": "3. **断言分三级。** 事实（带小节级来源锚点）/ 建议（标明是建议）/ 推断（写出可推翻条件），不许混写。",
-      "rule_type": "建议句式",
-      "hardenable": true
-    },
-    {
-      "line": 186,
-      "text": "| 讲透这个概念（单点） | 建议切 `visual-knowledge-tutor` | — |",
       "rule_type": "建议句式",
       "hardenable": true
     }
