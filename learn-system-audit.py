@@ -9,6 +9,9 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 SKILL = os.path.join(ROOT, "skill", "learn-system")   # 仓库副本 = 唯一真源
 INSTALLED = os.path.join(os.path.expanduser("~"), ".workbuddy", "skills", "learn-system")
 WS    = r"C:/Users/iamly/WorkBuddy/2026-10-30-23-04-03/study/注塑"
+# 工作区回归段依赖本地示例 study/注塑；缺失时跳过该段，而不是让整个审计崩溃
+# （崩溃会连带打挂 build.py 的兜底门禁，造成「假红」误判）。技能本体检查照常进行。
+WS_EXISTS = os.path.isdir(WS)
 
 FAILS = []
 def chk(cond, name, detail=""):
@@ -20,6 +23,12 @@ def chk(cond, name, detail=""):
 
 def rd(p):
     return open(p, encoding="utf-8").read()
+
+def rd_ws(rel):
+    """读工作区示例文件；study/注塑 缺失时返回 None（由调用方跳过该检查）。"""
+    if not WS_EXISTS:
+        return None
+    return rd(os.path.join(WS, rel))
 
 print("=== A. 包完整性 ===")
 need = ["SKILL.md", "README.md",
@@ -130,9 +139,13 @@ chk(len(uniq) <= 1, "mistakes 创建条件全局唯一", f"出现 {len(uniq)} �
 print("\n=== E. 停更判定可执行性 ===")
 tpl = yaml.safe_load(rd(os.path.join(SKILL, "templates/syllabus.template.yaml")))
 chk("started_at" in tpl.get("topic", {}), "模板有 topic.started_at（停更逾期要算）", "模板无起点日期字段")
-wsy = yaml.safe_load(rd(os.path.join(WS, "syllabus.yaml")))
-chk("started_at" in wsy.get("topic", {}), "注塑 syllabus 有 started_at", "无起点日期，逾期 1/3/6 周无法计算")
-chk(all("core" in m for m in wsy["modules"]), "注塑每模块有 core（铁律 9 前置校验用）", "缺 core 字段")
+_ws_syl = rd_ws("syllabus.yaml")
+wsy = yaml.safe_load(_ws_syl) if _ws_syl is not None else None
+if wsy is not None:
+    chk("started_at" in wsy.get("topic", {}), "注塑 syllabus 有 started_at", "无起点日期，逾期 1/3/6 周无法计算")
+    chk(all("core" in m for m in wsy["modules"]), "注塑每模块有 core（铁律 9 前置校验用）", "缺 core 字段")
+else:
+    print("  --    study/注塑 缺失，跳过工作区回归（E/H/I/J/K/P 段）")
 chk(all("core" in m for m in tpl["modules"]), "模板每模块有 core", "缺 core 字段")
 
 print("\n=== F. 单文件 vs 外链样式（硬约束冲突）==")
@@ -150,64 +163,73 @@ bad = [r for r in refs if not os.path.exists(os.path.join(SKILL, r))]
 chk(not bad, f"SKILL.md {len(refs)} 处引用可解析", f"失效 {bad}")
 
 print("\n=== H. 真实工作区产物（注塑）==")
-les = os.path.join(WS, "lessons", "0001-成型周期与温度组.html")
-chk(os.path.exists(les), "0001 存在", "缺失")
-h = rd(les)
-for blk in ["goal", "anchor", "quiz", "check", "perish", "tag", "risk"]:
-    chk(f'class="{blk}"' in h, f"0001 含区块 .{blk}", "缺失该区块")
-ans = re.findall(r'data-answer="([a-d])"', h)
-chk(3 <= len(ans) <= 5, f"自检 {len(ans)} 题（3-5）", str(ans))
-chk(len(set(ans)) > 1, f"正确项位置打散 {ans}", "位置集中")
+if WS_EXISTS:
+    les = os.path.join(WS, "lessons", "0001-成型周期与温度组.html")
+    chk(os.path.exists(les), "0001 存在", "缺失")
+    h = rd(les)
+    for blk in ["goal", "anchor", "quiz", "check", "perish", "tag", "risk"]:
+        chk(f'class="{blk}"' in h, f"0001 含区块 .{blk}", "缺失该区块")
+    ans = re.findall(r'data-answer="([a-d])"', h)
+    chk(3 <= len(ans) <= 5, f"自检 {len(ans)} 题（3-5）", str(ans))
+    chk(len(set(ans)) > 1, f"正确项位置打散 {ans}", "位置集中")
 
-# 导航链：本课 -> 速查件 可达；上一课/下一课 表示是否定义
-local = re.findall(r'href="(\.\./[^"]+)"', h)
-for l in local:
-    chk(os.path.exists(os.path.normpath(os.path.join(WS, "lessons", l))), f"导航 {l} 可达", "断链")
-nav_txt = h[h.find('<nav'):h.find('</nav>')]
-chk("上一课" in nav_txt or "首课" in nav_txt, "导航含上一课位置", "缺失")
-chk("0002" in nav_txt, "导航声明下一课", "未声明下一课")
+    # 导航链：本课 -> 速查件 可达；上一课/下一课 表示是否定义
+    local = re.findall(r'href="(\.\./[^"]+)"', h)
+    for l in local:
+        chk(os.path.exists(os.path.normpath(os.path.join(WS, "lessons", l))), f"导航 {l} 可达", "断链")
+    nav_txt = h[h.find('<nav'):h.find('</nav>')]
+    chk("上一课" in nav_txt or "首课" in nav_txt, "导航含上一课位置", "缺失")
+    chk("0002" in nav_txt, "导航声明下一课", "未声明下一课")
 
-# 每课必须含 2D + 3D 坐标系图（讲机制，不是装饰）
-for fn in sorted(glob.glob(os.path.join(WS, "lessons", "*.html"))):
-    lh = rd(fn)
-    n2d, n3d = lh.count('data-fig="2d"'), lh.count('data-fig="3d"')
-    nm = os.path.basename(fn)
-    chk(n2d >= 1 and n3d >= 1, f"{nm} 含坐标系图 2D×{n2d} / 3D×{n3d}", "课内缺机制图 = 只列结论不讲为什么")
-    chk(lh.count("<svg") == lh.count("</svg>") and 'viewBox="0 0 620' in lh, f"{nm} SVG 闭合且尺寸统一", "结构异常")
-    figtags = re.findall(r"<figure[^>]*>", lh)
-    noq = [t for t in figtags if 'data-q="' not in t or 'data-q=""' in t]
-    chk(not noq, f"{nm} 每个 figure 都声明了 data-q（{len(figtags)} 个）", f"无可回答问题的图：{noq[:1]}")
-    svgs = re.findall(r"<svg[\s\S]*?</svg>", lh)
-    thin = [i + 1 for i, b in enumerate(svgs) if b.count("<text") < 3]
-    chk(not thin, f"{nm} 各图文本 ≥3 条（{len(svgs)} 张，=轴标签+数据标注）", f"第 {thin} 张缺轴标签")
-    chk(not re.search(r"gradient|box-shadow|filter=", lh), f"{nm} 无渐变/阴影/滤镜", "平台规范与一致性原则禁止")
-    small = [x for x in re.findall(r'font-size="([\d.]+)"', lh) if float(x) < 11]
-    chk(not small, f"{nm} 图内字号全部 ≥11px", f"过小字号：{sorted(set(small))[:3]}")
-    chk(not re.search(r"如上图|见下图|见图[^解]", lh), f"{nm} caption 不写「见图」", "图必须能独立读懂")
+    # 每课必须含 2D + 3D 坐标系图（讲机制，不是装饰）
+    for fn in sorted(glob.glob(os.path.join(WS, "lessons", "*.html"))):
+        lh = rd(fn)
+        n2d, n3d = lh.count('data-fig="2d"'), lh.count('data-fig="3d"')
+        nm = os.path.basename(fn)
+        chk(n2d >= 1 and n3d >= 1, f"{nm} 含坐标系图 2D×{n2d} / 3D×{n3d}", "课内缺机制图 = 只列结论不讲为什么")
+        chk(lh.count("<svg") == lh.count("</svg>") and 'viewBox="0 0 620' in lh, f"{nm} SVG 闭合且尺寸统一", "结构异常")
+        figtags = re.findall(r"<figure[^>]*>", lh)
+        noq = [t for t in figtags if 'data-q="' not in t or 'data-q=""' in t]
+        chk(not noq, f"{nm} 每个 figure 都声明了 data-q（{len(figtags)} 个）", f"无可回答问题的图：{noq[:1]}")
+        svgs = re.findall(r"<svg[\s\S]*?</svg>", lh)
+        thin = [i + 1 for i, b in enumerate(svgs) if b.count("<text") < 3]
+        chk(not thin, f"{nm} 各图文本 ≥3 条（{len(svgs)} 张，=轴标签+数据标注）", f"第 {thin} 张缺轴标签")
+        chk(not re.search(r"gradient|box-shadow|filter=", lh), f"{nm} 无渐变/阴影/滤镜", "平台规范与一致性原则禁止")
+        small = [x for x in re.findall(r'font-size="([\d.]+)"', lh) if float(x) < 11]
+        chk(not small, f"{nm} 图内字号全部 ≥11px", f"过小字号：{sorted(set(small))[:3]}")
+        chk(not re.search(r"如上图|见下图|见图[^解]", lh), f"{nm} caption 不写「见图」", "图必须能独立读懂")
+else:
+    print("  --    study/注塑 缺失，跳过工作区产物回归（H）")
 
 print("\n=== I. 掌握度 / 复习 一致性 ===")
-mt = rd(os.path.join(WS, "mastery.md"))
-rv = rd(os.path.join(WS, "review.md"))
-mrows = [r for r in mt.splitlines() if re.match(r"^\| [^|]+ \| M\d", r)]
-rrows = [r for r in rv.splitlines() if re.match(r"^\| [^|]+ \| M\d", r)]
-chk(len(mrows) == 26, f"mastery 明细 {len(mrows)} 行", "应 26")
-mc = [r.split("|")[1].strip() for r in mrows]
-rc = [r.split("|")[1].strip() for r in rrows]
-chk(all(x in mc for x in rc), "review 概念 ⊆ mastery 概念", f"孤立 {[x for x in rc if x not in mc]}")
-today = datetime.date.fromisoformat(subprocess.run(["date", "+%F"], capture_output=True, text=True).stdout.strip())
-for r in rrows:
-    p = [x.strip() for x in r.split("|")]
-    chk(p[6] == str(today + datetime.timedelta(days=1)), f"{p[1]} 到期日算术", f"{p[6]} != 今天+1")
-chk(all(k in mt for k in ["当前模块", "下一课", "到期复习"]), "mastery 顶部三行恢复入口", "缺失")
+if WS_EXISTS:
+    mt = rd(os.path.join(WS, "mastery.md"))
+    rv = rd(os.path.join(WS, "review.md"))
+    mrows = [r for r in mt.splitlines() if re.match(r"^\| [^|]+ \| M\d", r)]
+    rrows = [r for r in rv.splitlines() if re.match(r"^\| [^|]+ \| M\d", r)]
+    chk(len(mrows) == 26, f"mastery 明细 {len(mrows)} 行", "应 26")
+    mc = [r.split("|")[1].strip() for r in mrows]
+    rc = [r.split("|")[1].strip() for r in rrows]
+    chk(all(x in mc for x in rc), "review 概念 ⊆ mastery 概念", f"孤立 {[x for x in rc if x not in mc]}")
+    today = datetime.date.fromisoformat(subprocess.run(["date", "+%F"], capture_output=True, text=True).stdout.strip())
+    for r in rrows:
+        p = [x.strip() for x in r.split("|")]
+        chk(p[6] == str(today + datetime.timedelta(days=1)), f"{p[1]} 到期日算术", f"{p[6]} != 今天+1")
+    chk(all(k in mt for k in ["当前模块", "下一课", "到期复习"]), "mastery 顶部三行恢复入口", "缺失")
+else:
+    print("  --    study/注塑 缺失，跳过掌握度/复习一致性回归（I）")
 
 print("\n=== J. 覆盖度（铁律 4：每个概念必须出现在某课或速查件）==")
-all_text = h + rd(os.path.join(WS, "reference", "成型周期与温度组速查.html"))
-m01 = [m for m in wsy["modules"] if m["id"] == "M01"][0]
-covered = [c for c in m01["concepts"] if c in all_text]
-print(f"  M01 概念 {len(m01['concepts'])} 个，已覆盖 {len(covered)}: {covered}")
-left = [c for c in m01["concepts"] if c not in covered]
-print(f"  未覆盖（应在后续课讲授）: {left}")
-chk(True, "覆盖度缺口已显式列出（非静默）", "")
+if WS_EXISTS:
+    all_text = h + rd(os.path.join(WS, "reference", "成型周期与温度组速查.html"))
+    m01 = [m for m in wsy["modules"] if m["id"] == "M01"][0]
+    covered = [c for c in m01["concepts"] if c in all_text]
+    print(f"  M01 概念 {len(m01['concepts'])} 个，已覆盖 {len(covered)}: {covered}")
+    left = [c for c in m01["concepts"] if c not in covered]
+    print(f"  未覆盖（应在后续课讲授）: {left}")
+    chk(True, "覆盖度缺口已显式列出（非静默）", "")
+else:
+    print("  --    study/注塑 缺失，跳过覆盖度回归（J）")
 
 print("\n=== K. HTML 合法性 ===")
 class V(html.parser.HTMLParser):
@@ -219,8 +241,11 @@ class V(html.parser.HTMLParser):
         if t in {"meta", "br", "hr", "input", "img", "link"}: return
         if s.st and s.st[-1] == t: s.st.pop()
         else: s.err.append(t)
-v = V(); v.feed(h)
-chk(not v.st and not v.err, "0001 标签闭合", f"未闭合 {v.st[:3]} 错配 {v.err[:3]}")
+if WS_EXISTS:
+    v = V(); v.feed(h)
+    chk(not v.st and not v.err, "0001 标签闭合", f"未闭合 {v.st[:3]} 错配 {v.err[:3]}")
+else:
+    print("  --    study/注塑 缺失，跳过 HTML 合法性回归（K）")
 
 print("\n=== L. 规则可执行性（写不出字段 = 规则是空的）==")
 chk("study/*" in sk or "扫" in sk, "新会话定位 study/<topic>/ 有说明",
@@ -247,12 +272,15 @@ for h_ in hrefs:
         "状态模型里没有 reference/index.html，模板会教 AI 写出断链")
 
 print("\n=== P. 口径一致（同一数字两处写不能打架）==")
-due_top = re.search(r"到期复习：(\d+) 条", mt)
-due_rev = re.search(r"今天（[\d-]+）到期 (\d+) 条", rv) or re.search(r"今天到期 (\d+) 条", rv)
-if due_top and due_rev:
-    chk(due_top.group(1) == due_rev.group(1),
-        f"mastery 顶部『到期复习 {due_top.group(1)} 条』= review『今天到期 {due_rev.group(1)} 条』",
-        "两处口径不一致，恢复时会读错")
+if WS_EXISTS:
+    due_top = re.search(r"到期复习：(\d+) 条", mt)
+    due_rev = re.search(r"今天（[\d-]+）到期 (\d+) 条", rv) or re.search(r"今天到期 (\d+) 条", rv)
+    if due_top and due_rev:
+        chk(due_top.group(1) == due_rev.group(1),
+            f"mastery 顶部『到期复习 {due_top.group(1)} 条』= review『今天到期 {due_rev.group(1)} 条』",
+            "两处口径不一致，恢复时会读错")
+else:
+    print("  --    study/注塑 缺失，跳出口径一致回归（P）")
 
 print("\n=== Q. 盲测暴露的条款是否补上 ===")
 chk("没有 `syllabus.yaml`" in sk, "接管检测排除本 skill 自身进度", "本 skill 自己也有 lessons/+MISSION.md，会每次误报")

@@ -33,6 +33,16 @@ def chk(ok, name, why=""):
         FAILS.append(name)
 
 
+_lessons_dir = os.path.join(WS, "lessons")
+def _lesson_htmls():
+    """真实工作区 study/注塑 下的课内 HTML；目录缺失时返回空，避免审计崩溃。"""
+    if not os.path.isdir(_lessons_dir):
+        return []
+    return sorted(f for f in os.listdir(_lessons_dir) if f.endswith(".html"))
+if not _lesson_htmls():
+    print("  --    study/注塑 缺失，跳过课内图回归（AB07-09, AB12-13）")
+
+
 sk = rd(os.path.join(SKILL, "SKILL.md"))
 r9 = rd(R9)
 kb = rd(KB)
@@ -91,7 +101,7 @@ chk(len(used) == 3, f"AB06 三条配方都在 --demo 里被真实调用（{used}
 
 # ── AB07 课内图的无障碍属性 ──────────────────────
 # 真实发生过的错：硬规范写 aria-label，但库生成的图只有 title/desc，且审计没查
-for fn in sorted(os.listdir(os.path.join(WS, "lessons"))):
+for fn in _lesson_htmls():
     if not fn.endswith(".html"):
         continue
     h = rd(os.path.join(WS, "lessons", fn))
@@ -106,7 +116,7 @@ for fn in sorted(os.listdir(os.path.join(WS, "lessons"))):
     chk(not bad, f"AB07 {fn} 每张图都有 role=img 且可读标签", str(bad[:3]))
 
 # ── AB08 每课图数不超过 5（09 的拆课门槛）────────
-for fn in sorted(os.listdir(os.path.join(WS, "lessons"))):
+for fn in _lesson_htmls():
     if not fn.endswith(".html"):
         continue
     h = rd(os.path.join(WS, "lessons", fn))
@@ -114,7 +124,7 @@ for fn in sorted(os.listdir(os.path.join(WS, "lessons"))):
     chk(n <= 5, f"AB08 {fn} 图数 {n} ≤ 5（超了该拆课）", "09 定的门槛是 5")
 
 # ── AB09 data-q 必须是问句形态 ───────────────────
-for fn in sorted(os.listdir(os.path.join(WS, "lessons"))):
+for fn in _lesson_htmls():
     if not fn.endswith(".html"):
         continue
     h = rd(os.path.join(WS, "lessons", fn))
@@ -130,11 +140,13 @@ chk(re.findall(r"^### 3\.2 ", r9, re.M) != [],
     "AB11 09 §3.2 标题层级正确（### 而非 ##）", "层级错会导致目录解析失败")
 
 # ── AB12 0003 图型与内容匹配（不能为了凑 2D/3D 硬套）──
-h3 = rd(os.path.join(WS, "lessons", "0003-冷却时间.html"))
-caps = re.findall(r"<figcaption>([\s\S]*?)</figcaption>", h3)
-chk(len(caps) == 3, f"AB12 0003 有 3 条 figcaption（实 {len(caps)}）", "图与说明数量不符")
-chk(all(len(re.sub(r"<[^>]+>", "", c)) >= 40 for c in caps),
-    "AB13 每条 figcaption 都能独立说明（≥40 字）", "太短的说明图读不懂")
+_h3_path = os.path.join(WS, "lessons", "0003-冷却时间.html")
+if os.path.isfile(_h3_path):
+    h3 = rd(_h3_path)
+    caps = re.findall(r"<figcaption>([\s\S]*?)</figcaption>", h3)
+    chk(len(caps) == 3, f"AB12 0003 有 3 条 figcaption（实 {len(caps)}）", "图与说明数量不符")
+    chk(all(len(re.sub(r"<[^>]+>", "", c)) >= 40 for c in caps),
+        "AB13 每条 figcaption 都能独立说明（≥40 字）", "太短的说明图读不懂")
 
 # ── 汇总 ────────────────────────────────────────
 print()

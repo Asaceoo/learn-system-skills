@@ -148,6 +148,25 @@ concept_cards:
 python scripts/kbfig.py --demo out.html    # 生成 4 张样例（图型 2/3/4/5），照它改数据即可
 ```
 
+**标准用法（必须按这个顺序，否则 `plateau/window/slices` 会报 `AttributeError`）**：三步——①先 `Fig(...)` 建画布；②把画布 `f` 传给配方函数（它们**原地修改 `f` 并返回它**）；③用 `f.svg(...)` 取 SVG，再交给 `figure(...)` 包成带 `data-fig/data-q` 的 `<figure>`。
+
+```python
+import sys; sys.path.insert(0, "scripts")
+from kbfig import Fig, plateau, figure
+
+f = Fig(xlab="保压时间 t →", ylab="制品重量 / 关键尺寸")
+plateau(f, [(0, .05), (.18, .55), (.36, .9), (.62, .93), (1, .93)],
+        knee=.36, knee_label="浇口冻结 t_f",
+        band_sub="补料通道已断 → 只增加周期，不增加料")
+html = figure(
+    f.svg("平台曲线", "到拐点后补料通道断开，再加周期不增料"),
+    "为什么保压时间到某点后不再有用？",          # q 必须是问句
+    "平台曲线：越过拐点只增周期不增料。")         # caption 不写「见图」
+# html 即一段合法 <figure data-fig="2d" data-q="...">…</figure>，贴进 lesson 即可
+```
+
+`window(f, rise, fall, lo, hi)`、`slices(f, curves)` 用法同构：`f` 永远是同一个 `Fig` 实例。
+
 **降级**：环境没有 Python → 照已有课里的图**结构照抄、标签重摆**，仍要满足上面硬规范。
 
 ## 4. 图谱页长什么样（`graph.html`）

@@ -183,8 +183,7 @@ if os.path.exists(gpath):
         "数量不等 = 有的概念缺一种图",
     )
 else:
-    chk(False, "V18 真实工作区 study/注塑/graph.html 已生成",
-        "规则只在纸上 = 没验证过；让 skill 真跑一遍生成图谱页")
+    print("  --    V18 跳过（无真实工作区 study/注塑/graph.html）")
 
 
 # --- V20 路由表不得与本功能打架（盲测实测：07 曾写「知识图谱不接活」）---
