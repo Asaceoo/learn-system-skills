@@ -1,13 +1,13 @@
 # learn-system 用户手册
 
-版本：v0.9.3　|　面向：使用这个 Skill 学习的人　|　技术细节见 `TECHNICAL.md`
+版本：v0.9.4　|　面向：使用这个 Skill 学习的人　|　技术细节见 `TECHNICAL.md`
 
 ---
 
 ## 0. 近期更新要点
 
 - **README 加了真实概念图**：四层文件结构、八项概念卡两图以 SVG 形式内嵌，离线仓库内可直接渲染（见仓库 `docs/assets/`）。
-- **自检项稳定收敛到 258 项**：主审计 + 10 个专项段 + `count_checks` 兜底门禁，文档宣称项数与实际 PASS 数强制一致。
+- **自检项稳定收敛到 259 项**：主审计 + 10 个专项段 + `count_checks` 兜底门禁，文档宣称项数与实际 PASS 数强制一致。
 - **双目录扫描规则固化**：只扫当前目录与 `~/Documents/learn-system/` 兜底，不向上级找；多命中让用户选。
 - 安装命令里的版本号随 `build.py` 自动递增，请以 `dist/` 中最新的 `learn-system-vX.Y.Z.zip` 为准。
 
@@ -38,7 +38,7 @@
 
 ```bash
 # 推荐：解压 zip
-unzip learn-system-v0.9.3.zip -d ~/.workbuddy/skills/
+unzip learn-system-v0.9.4.zip -d ~/.workbuddy/skills/
 ```
 
 Windows 解压到 `C:\Users\<你>\.workbuddy\skills\`，确认路径是：
@@ -391,7 +391,7 @@ modules:
 
 ```bash
 python build.py --bump patch    # 递增版本 + 同步文档 + 部署到已装副本 + 打包
-python learn-system-audit.py    # 258 项自检，退出码非 0 即有问题
+python learn-system-audit.py    # 259 项自检，退出码非 0 即有问题
 python tools/count_checks.py    # 文档说的项数 == 实际跑出的项数，不一致拒绝打包
 ```
 

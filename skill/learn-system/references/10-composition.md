@@ -33,7 +33,7 @@ artifacts: []          # 加在 topic 块之后、modules 之前，或文件末�
 | 1 | 单点课 | 按大纲推进 | 自产 | `lessons/NNNN-*.html` | 单文件离线、可打印、带即时判分自检 |
 | 2 | 知识图谱页 | 大纲确认后 | 自产 | `graph.html` | 每概念八项、内联 2D/3D、零外链 |
 | 3 | 速查件 | 压出可回看单元 | 自产 | `reference/<概念名>速查.html` | 单文件、一页能扫完 |
-| 4 | **深讲卡** | **同一概念连续 2 次没懂**。**「看了两遍」只算 1 次**（一次阅读经历），别只看本表——详见下方辨析 | 借 `visual-knowledge-tutor` | `reference/<概念名>深讲.html` | 必须有动画或白板式分解；仍要单文件 |
+| 4 | **深讲卡** | **同一概念连续 2 次没懂**。**「看了两遍」只算 1 次**（一次阅读经历），别只看本表——详见下方辨析 | 借 `visual-knowledge-tutor` | `reference/<概念名>深讲.html` | 借 tutor 时含动画/白板分解；自做降级用文字+SVG（见 §6），仍要单文件 |
 | 5 | 交互课件 | 机制必须动手试才懂（如参数联动） | 借 `teachany` | `reference/<概念名>交互.html` | 可交互但**不得依赖联网**；体积 ≤ 2 MB |
 | 6 | **模块手册** | **一个模块的课全部学完** | 借 `knowledge-handbook-builder` | 模块目录 `handbook/` | 章节顺序与 syllabus 一致 |
 | 7 | 抽认卡 | 复习队列里档位 ≤1 的条目 ≥5 条 | 自产派生 | `reference/抽认卡.html` | 从 `mastery.md` + `review.md` 生成，一题一卡 |
@@ -60,7 +60,7 @@ artifacts: []          # 加在 topic 块之后、modules 之前，或文件末�
 
 | 产物 | 给它什么输入 | 要它输出什么 | 回收时登记 |
 |---|---|---|---|
-| 深讲卡 | 概念卡的 `prerequisite` + `assumption` + `first_principle` + 该课里的卡点原话 | 一份 HTML，含「原来卡在哪 / 换什么视角 / 一张动画或白板分解」 | `artifacts` 加一行，`type: deep-dive` |
+| 深讲卡 | 概念卡的 `prerequisite` + `assumption` + `first_principle` + 该课里的卡点原话 | 一份 HTML，含「原来卡在哪 / 换什么视角 / 一张动画或白板分解（自做降级用文字+SVG，见 §6）」 | `artifacts` 加一行，`type: deep-dive` |
 | 交互课件 | 该机制的参数列表与相互影响 | 一份可离线交互的 HTML | `artifacts`，`type: interactive` |
 | 模块手册 | 该模块全部课 + 验收题 + `not_covered` | 一份可交付手册 | `artifacts`，`type: handbook` |
 | 抽认卡 | `mastery.md` 的概念 + 档位 + 证据 | 一页卡片（正面问题/背面答案） | `artifacts`，`type: flashcards` |

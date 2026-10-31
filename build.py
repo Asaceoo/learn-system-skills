@@ -119,6 +119,24 @@ def main():
 
     old = read_version()
     new = old if args.no_bump else bump(old, args.bump)
+
+    # ── 先部署（仓库副本 → 已安装副本）──
+    # 这一步同步 U 段要比较的两份，消解「改了仓库没部署」的漂移；仓库即事实源，
+    # 部署只是把它镜像到运行副本，不算污染。真正的污染（版本号/文档/zip）在门禁通过后才会动。
+    deploy()
+
+    # ── 兜底门禁（F4 修复）：部署之后、版本号/文档/zip 之前跑审计 ──
+    # 失败则立即退出，绝不动 VERSION、文档、不产 zip（失败构建不再污染仓库状态）。
+    cc = os.path.join(ROOT, "tools", "count_checks.py")
+    if os.path.exists(cc):
+        import subprocess
+        print("校验文档项数（门禁：失败不写版本号/文档、不产 zip）:")
+        if subprocess.call([sys.executable, cc], cwd=ROOT) != 0:
+            print("!! 文档项数与实际不符，已拒绝打包，未改动版本号/文档。改完再跑 build.py")
+            return 1
+    else:
+        print("!! 未找到 count_checks.py，跳过门禁（仍会继续打包）")
+
     print(f"版本号: v{old} -> v{new}" + ("（--no-bump）" if args.no_bump else f"（bump {args.bump}）"))
 
     open(VERSION_FILE, "w", encoding="utf-8", newline="\n").write(new + "\n")
@@ -127,17 +145,6 @@ def main():
     for rel, n in sync_docs(old, new):
         flag = "OK  " if n else "--  "
         print(f"  {flag}{rel}: {n} 处版本号已更新")
-
-    deploy()
-
-    # 项数兜底：文档说的审计项数必须等于实际。不一致就拒绝打包（v0.7.3 漏过一次）
-    cc = os.path.join(ROOT, "tools", "count_checks.py")
-    if os.path.exists(cc):
-        import subprocess
-        print("校验文档项数:")
-        if subprocess.call([sys.executable, cc], cwd=ROOT) != 0:
-            print("!! 文档项数与实际不符，已拒绝打包。改完再跑 build.py")
-            return 1
 
     path, n = make_zip(new)
     print(f"打包: {os.path.relpath(path, ROOT)}  ({n} 个文件, {os.path.getsize(path)//1024} KB)")

@@ -181,7 +181,7 @@ study/<topic>/
 | 考考我 / 我学到哪了 | D 测掌握度 | `references/03-assessment.md`、`04-mastery.md` |
 | 太浅了 / 太难 / 赶不上 | E 调整 | `references/01-system-design.md` |
 | 太久没学了 | E 停更判定 | 本节停更三档 |
-| 这个概念我没懂 / 看不懂 | 记「未懂 N」进 `mastery.md` 备注（不记变更日志）；材料缺失先补课，满 2 次出深讲卡 | `references/10-composition.md` |
+| 这个概念我没懂 / 看不懂 | 记「未懂 N」进 `mastery.md` 备注（不记变更日志）；满 2 次：**有独立课**→出深讲卡（见 ref 10），**无独立课（材料缺失）**→先补课、不出卡顶替（ref 10 §4 胜出） | `references/10-composition.md` |
 | 讲透这个概念（单点） | 切 `visual-knowledge-tutor`；切不成见降级表「单概念讲解」 | — |
 
 ## 降级

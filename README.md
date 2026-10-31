@@ -1,6 +1,6 @@
 # learn-system · 体系学习控制器
 
-> 版本：v0.9.3 · 一个让「学完一个领域」可追踪的 Agent Skill
+> 版本：v0.9.4 · 一个让「学完一个领域」可追踪的 Agent Skill
 > 它不教你知识，它管你把一件事学完：**学什么、什么顺序、到什么程度、什么时候该复习**。
 
 ---
@@ -265,10 +265,10 @@ cp -r skill/learn-system ~/.workbuddy/skills/
 **热力图的读法**：格内是**概念数**，不是分数。整列都是 0 不是记录缺失，是还没到那个阶段。
 「未评」这一列有数字，说明课上过了但自检没答——**这正是最该被看见的一列**。
 
-## 十二、自检：258 项审计
+## 十二、自检：259 项审计
 
 ```bash
-python learn-system-audit.py       # 主审计：258 项，退出码非 0 即 FAIL
+python learn-system-audit.py       # 主审计：259 项，退出码非 0 即 FAIL
 python tools/review_dialog.py      # 弹窗专项 T 段（24 项）
 python tools/review_graph.py       # 图谱专项 V 段（34 项）
 python tools/review_compose.py     # 组合专项 Y 段（14 项）
