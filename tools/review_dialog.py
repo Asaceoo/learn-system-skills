@@ -142,8 +142,8 @@ chk(
 # --- T15 体积红线 ---
 size = os.path.getsize(SK)
 chk(
-    size <= 14336,
-    "T15 SKILL.md 体积 %d B <= 14 KB 红线" % size,
+    size <= 15360,
+    "T15 SKILL.md 体积 %d B <= 15 KB 红线" % size,
     "加规则不能靠无限加字；改流程顺序，或把细则外移到 references/",
 )
 

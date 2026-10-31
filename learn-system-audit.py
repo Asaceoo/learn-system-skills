@@ -361,6 +361,15 @@ chk(len(_audit_nums) == 1,
     f"三份文档里的审计项数一致（{'/'.join(sorted(_audit_nums)) or '不一致'}）",
     "改了 README 忘了改手册 = 用户和实现者看到的数字不一样")
 
+print("\n=== AC. 图面语法（融合 diagram-design）===")
+_ac = os.path.join(ROOT, "tools", "review_visual.py")
+if os.path.exists(_ac):
+    import subprocess
+    if subprocess.call([sys.executable, _ac]) != 0:
+        FAILS.append("图面语法 AC 段有 FAIL（见上方 AC 段输出）")
+else:
+    FAILS.append("缺 tools/review_visual.py")
+
 print("\n=== AB. 图型语法与坐标库 ===")
 _ab = os.path.join(ROOT, "tools", "review_figspec.py")
 if os.path.exists(_ab):

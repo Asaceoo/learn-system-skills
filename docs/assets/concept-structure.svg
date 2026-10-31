@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 926 215" role="img" aria-labelledby="cs-t cs-d" font-family="-apple-system,Segoe UI,Microsoft YaHei,sans-serif">
+<title id="cs-t">四层文件结构</title>
+<desc id="cs-d">从 MISSION 到 review 的六类文件，聊天只作入口，文件才是事实。</desc>
+<rect x="0" y="0" width="926" height="215" fill="#ffffff"/>
+<line x1="146" y1="86.0" x2="172" y2="86.0" stroke="#cbd2d9" stroke-width="2"/>
+<path d="M165 82.0 L172 86.0 L165 90.0" fill="#cbd2d9"/>
+<line x1="298" y1="86.0" x2="324" y2="86.0" stroke="#cbd2d9" stroke-width="2"/>
+<path d="M317 82.0 L324 86.0 L317 90.0" fill="#cbd2d9"/>
+<line x1="450" y1="86.0" x2="476" y2="86.0" stroke="#cbd2d9" stroke-width="2"/>
+<path d="M469 82.0 L476 86.0 L469 90.0" fill="#cbd2d9"/>
+<line x1="602" y1="86.0" x2="628" y2="86.0" stroke="#cbd2d9" stroke-width="2"/>
+<path d="M621 82.0 L628 86.0 L621 90.0" fill="#cbd2d9"/>
+<line x1="754" y1="86.0" x2="780" y2="86.0" stroke="#cbd2d9" stroke-width="2"/>
+<path d="M773 82.0 L780 86.0 L773 90.0" fill="#cbd2d9"/>
+<rect x="20" y="58" width="126" height="56" rx="8" fill="#eef2ff" stroke="#2563eb" stroke-width="2"/>
+<text x="83.0" y="82" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2933">MISSION.md</text>
+<text x="83.0" y="100" text-anchor="middle" font-size="10" fill="#52606d">为什么学 / 什么算成功</text>
+<rect x="172" y="58" width="126" height="56" rx="8" fill="#ffffff" stroke="#cbd2d9" stroke-width="2"/>
+<text x="235.0" y="82" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2933">syllabus.yaml</text>
+<text x="235.0" y="100" text-anchor="middle" font-size="10" fill="#52606d">学什么 · 什么顺序</text>
+<rect x="324" y="58" width="126" height="56" rx="8" fill="#ffffff" stroke="#cbd2d9" stroke-width="2"/>
+<text x="387.0" y="82" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2933">graph.html</text>
+<text x="387.0" y="100" text-anchor="middle" font-size="10" fill="#52606d">概念之间什么关系</text>
+<rect x="476" y="58" width="126" height="56" rx="8" fill="#ffffff" stroke="#cbd2d9" stroke-width="2"/>
+<text x="539.0" y="82" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2933">lessons/*.html</text>
+<text x="539.0" y="100" text-anchor="middle" font-size="10" fill="#52606d">一次讲一个点</text>
+<rect x="628" y="58" width="126" height="56" rx="8" fill="#ffffff" stroke="#cbd2d9" stroke-width="2"/>
+<text x="691.0" y="82" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2933">mastery.md</text>
+<text x="691.0" y="100" text-anchor="middle" font-size="10" fill="#52606d">到什么程度</text>
+<rect x="780" y="58" width="126" height="56" rx="8" fill="#eef2ff" stroke="#2563eb" stroke-width="2"/>
+<text x="843.0" y="82" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2933">review.md</text>
+<text x="843.0" y="100" text-anchor="middle" font-size="10" fill="#52606d">什么时候该复习</text>
+<path d="M843.0 114 C 843.0 176, 539.0 176, 539.0 114" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="691.0" y="168" text-anchor="middle" font-size="10" fill="#2563eb">到期复习 / 进度回看</text>
+<text x="463.0" y="203" text-anchor="middle" font-size="11" fill="#52606d">聊天是入口，文件是事实 —— 换会话、换设备、隔三月都能接上</text>
+</svg>

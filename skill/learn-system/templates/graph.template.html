@@ -32,6 +32,24 @@
   .fig .cap{font-size:12px;color:var(--mut);margin-bottom:4px}
   .fig svg{width:100%;height:auto;display:block}
   .nav{margin-top:34px;padding-top:14px;border-top:1px solid var(--bd);font-size:14px}
+  /* 模块路径：一条纵向的层叠带，状态靠左侧色条 + 文字双标（不靠颜色单标） */
+  .path{display:flex;flex-direction:column;gap:0;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+  .path .step{display:flex;gap:12px;padding:11px 14px;background:#fff;border-top:1px solid var(--bd)}
+  .path .step:first-child{border-top:0}
+  .path .step .idx{flex:0 0 34px;font-size:12px;color:var(--mut)}
+  .path .step .bd{flex:1}
+  .path .step .nm{font-weight:600}
+  .path .step .sub{font-size:13px;color:var(--mut)}
+  .path .step .st{flex:0 0 auto;font-size:12px;padding:1px 8px;border-radius:10px;border:1px solid var(--bd);color:var(--mut);height:fit-content}
+  .path .step.done{background:var(--card)}
+  .path .step.done .st{border-color:var(--acc);color:var(--acc)}
+  .path .step.doing .st{border-color:#b3403a;color:#b3403a}
+  /* 掌握度热力图：底色深浅编码数量，格内直接写数字（不靠颜色单标） */
+  table.heat{border-collapse:collapse;font-size:13px;width:100%}
+  table.heat th,table.heat td{border:1px solid var(--bd);padding:6px 8px;text-align:center}
+  table.heat th{background:var(--card);font-weight:400;font-size:12px;color:var(--mut)}
+  table.heat td.name{text-align:left;font-size:13px}
+  table.heat td.z{color:#c3bdb0}
   @media(max-width:640px){body{padding:18px 12px 40px}.cards{grid-template-columns:1fr}}
   @media print{body{background:#fff}.card{break-inside:avoid}}
 </style>
@@ -73,7 +91,35 @@
 </div>
 <div class="legend"><i></i>前置（先学它才能懂）　<i class="dash"></i>相关（互相影响 / 常一起用 / 易混淆）</div>
 
-<h2>二、概念卡</h2>
+<h2>二、学习路径（模块层，按前置顺序）</h2>
+<div class="path">
+  <!-- 每模块一行，按 syllabus.yaml 的 modules 顺序，不可按状态重排（顺序本身是信息）。
+       done / doing / 空 = 已学完 / 在学 / 未开始，三态双标：左侧底色 + 右侧文字 -->
+  <div class="step {{STATUS_CLASS}}">
+    <div class="idx">M01</div>
+    <div class="bd">
+      <div class="nm">{{MODULE_TITLE}}</div>
+      <div class="sub">{{CONCEPTS_已上}}/{{CONCEPTS_总数}} 概念已上 · {{BUDGET}}h</div>
+    </div>
+    <div class="st">{{STATUS_TEXT}}</div>
+  </div>
+</div>
+<div class="legend">顺序即前置：上面的模块没走完，下一个模块的核心概念会听不懂。状态取 mastery.md，不另行判断。</div>
+
+<h2>三、掌握度热力图（格内是概念数，不是分数）</h2>
+<table class="heat">
+  <thead>
+    <tr><th>模块</th><th>未学</th><th>未评</th><th>L1</th><th>L2</th><th>L3</th><th>L4</th><th>L5</th></tr>
+  </thead>
+  <tbody>
+    <!-- 每模块一行；格子底色按数量分三档（1-2 / 3-5 / 6+），数字必须写在格内——
+         只用颜色编码，打印成黑白或色弱时整张表就失效了 -->
+    <tr><td class="name">M01 模块名</td><td>3</td><td>3</td><td class="z">0</td><td>0</td><td>0</td><td class="z">0</td><td class="z">0</td></tr>
+  </tbody>
+</table>
+<div class="legend">「未评」= 上过课但没答自检（铁律 17：没证据不许升档）。整列都是 0 不是记录缺失，是还没到该有的阶段。</div>
+
+<h2>四、概念卡</h2>
 <div class="cards">
 
   <!-- ↓↓↓ 复制这张卡，每个概念一张 ↓↓↓ -->
@@ -86,7 +132,7 @@
     <div class="row"><b>第一性原理</b><span>追到 ___ 定律/守恒律：___ → 推导方向 ___</span></div>
     <div class="row"><b>通俗说明</b><span>就像 ___（类比要对齐机制）</span></div>
     <div class="row"><b>扩展</b><span>学完可往 ___ 走</span></div>
-    <div class="figs">
+    <div class="figs"><!-- 每张图外面套 overflow-x:auto 的 div（11 §8）；svg 的 min-width = viewBox 宽 -->
       <div class="fig">
         <div class="cap">2D · 关系与结构</div>
         <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">

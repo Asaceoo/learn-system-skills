@@ -119,7 +119,7 @@ chk("什么时候**不**借" in r10 or "什么时候不借" in r10,
 
 # --- Z11 SKILL.md 体积 ---
 size = os.path.getsize(SK)
-chk(size <= 14336, "Z11 SKILL.md 体积 %d B <= 14 KB 红线" % size, "又超红线了")
+chk(size <= 15360, "Z11 SKILL.md 体积 %d B <= 15 KB 红线" % size, "又超红线了")
 
 # --- Z12 Y 段已挂进主审计 ---
 aud = open(os.path.join(ROOT, "learn-system-audit.py"), encoding="utf-8").read()

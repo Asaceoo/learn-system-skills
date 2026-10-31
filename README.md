@@ -1,6 +1,6 @@
 # learn-system · 体系学习控制器
 
-> 版本：v0.8.7 · 一个让「学完一个领域」可追踪的 Agent Skill
+> 版本：v0.9.2 · 一个让「学完一个领域」可追踪的 Agent Skill
 > 它不教你知识，它管你把一件事学完：**学什么、什么顺序、到什么程度、什么时候该复习**。
 
 ---
@@ -23,6 +23,10 @@
 
 ## 二、四层结构（概念图）
 
+聊天是入口，**文件是事实**。换会话、换设备、隔三个月，读 `mastery.md` 顶部三行就能接上。
+
+![四层文件结构：从 MISSION 到 review 的六类文件，聊天只作入口、文件才是事实](docs/assets/concept-structure.svg)
+
 ```mermaid
 flowchart TD
     M["MISSION.md<br/>为什么学 / 什么算成功"] --> S["syllabus.yaml<br/>学什么 · 什么顺序"]
@@ -33,8 +37,6 @@ flowchart TD
     R -.到期复习.-> L
     MA -.进度回看.-> S
 ```
-
-聊天是入口，**文件是事实**。换会话、换设备、隔三个月，读 `mastery.md` 顶部三行就能接上。
 
 ---
 
@@ -97,6 +99,8 @@ flowchart TD
 ## 五、知识图谱：每个概念八项（概念图）
 
 大纲告诉你「学什么」，图谱告诉你「它们之间什么关系、每个点到底是什么」。
+
+![八项概念卡：一个概念必须覆盖前置、相关、前提假设、第一性原理、通俗说明、扩展、2D 图示、3D 图示](docs/assets/concept-card.svg)
 
 ```mermaid
 flowchart LR
@@ -243,15 +247,34 @@ cp -r skill/learn-system ~/.workbuddy/skills/
 
 ---
 
-## 十一、自检：227 项审计
+## 十一、图谱页四层：一眼看到「学到哪了」
+
+`graph.html` 不是「一张大图 + 一堆卡片」，而是四层递进，**每一层只回答一个问题**：
+
+| 层 | 内容 | 图型 | 回答 | 预算 |
+|---|---|---|---|---|
+| 一 | 模块级总览 | 层叠（S1） | 模块之间的顺序是什么 | 5 个节点 |
+| 二 | 学习路径 | 列表 + 三态 | 现在到哪了、下一站是哪个 | — |
+| 三 | 掌握度热力图 | 热力图（S7） | 26 个概念分别落在哪一档 | 12×8 格 |
+| 四 | 模块细节 | 依赖图（S9） | 这个模块内部谁先谁后 | 每模块 ≤9 节点 |
+
+**为什么要把原来那张 26 节点的图拆掉**：它超了「单图 ≤9 节点」这条预算三倍。
+把所有概念画在一张图上，看起来「全」，实际看不出主干——这是全局图最常见的失败方式。
+现在模块级 5 个节点看顺序，概念级一个模块一张，各看各的。
+
+**热力图的读法**：格内是**概念数**，不是分数。整列都是 0 不是记录缺失，是还没到那个阶段。
+「未评」这一列有数字，说明课上过了但自检没答——**这正是最该被看见的一列**。
+
+## 十二、自检：258 项审计
 
 ```bash
-python learn-system-audit.py       # 主审计：227 项，退出码非 0 即 FAIL
+python learn-system-audit.py       # 主审计：258 项，退出码非 0 即 FAIL
 python tools/review_dialog.py      # 弹窗专项 T 段（24 项）
 python tools/review_graph.py       # 图谱专项 V 段（34 项）
 python tools/review_compose.py     # 组合专项 Y 段（14 项）
 python tools/review_compose_deep.py # 组合深度 Z 段（17 项）
 python tools/review_side_effects.py # 副作用 AA 段（14 项）
+python tools/review_visual.py      # 图面语法 AC 段（25 项）
 python tools/review_regress.py     # 回归 X 段（13 项）
 python tools/review_figspec.py     # 图型语法 AB 段（19 项）
 python tools/count_checks.py       # 兜底：文档宣称项数 == 实际 PASS 数
@@ -263,7 +286,7 @@ python tools/count_checks.py       # 兜底：文档宣称项数 == 实际 PASS 
 
 ---
 
-## 十二、能和其他技能组合吗（能）
+## 十三、能和其他技能组合吗（能）
 
 它不是孤岛。**借力时控制权不转移**——别的技能只产内容，掌握度和复习队列只由它写。
 
@@ -284,7 +307,7 @@ python tools/count_checks.py       # 兜底：文档宣称项数 == 实际 PASS 
 
 ---
 
-## 十三、明确不做
+## 十四、明确不做
 
 | 不做 | 原因 |
 |---|---|
@@ -299,7 +322,7 @@ python tools/count_checks.py       # 兜底：文档宣称项数 == 实际 PASS 
 
 ---
 
-## 十四、版本与构建
+## 十五、版本与构建
 
 ```bash
 python build.py              # 递增 patch → 同步文档版本号 → 部署到已装副本 → 门禁校验 → 打 zip

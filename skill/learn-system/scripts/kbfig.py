@@ -129,12 +129,22 @@ class Fig:
                        f'{_esc(self.note)}</text>')
         return out
 
-    def svg(self, title="机制图", desc=""):
+    def svg(self, title="机制图", desc="", slug="fig"):
+        """按 11 §7 的无障碍契约输出：role=img + aria-labelledby，title 首子元素，id 带前缀。
+
+        slug 必须是**本页唯一**的短标识（通常就是文件名 slug）。同页多图共用 `title` / `desc`
+        这种裸 id 会撞车，读屏会把最后一张图的描述念给第一张听。
+
+        宽度：min-width 等于 viewBox 宽（11 §8），外面必须套 overflow-x 容器——用 figure() 一次做全。
+        """
         desc = desc or title
         body = "\n  ".join(self._axes() + self.items)
         return (f'<svg viewBox="0 0 {self.w} {self.h}" role="img" '
+                f'aria-labelledby="{slug}-title {slug}-desc" '
+                f'style="min-width:{self.w}px" '
                 f'xmlns="http://www.w3.org/2000/svg">\n'
-                f'<title>{_esc(title)}</title>\n<desc>{_esc(desc)}</desc>\n  '
+                f'<title id="{slug}-title">{_esc(title)}</title>\n'
+                f'<desc id="{slug}-desc">{_esc(desc)}</desc>\n  '
                 f'{body}\n</svg>')
 
     def _path(self, pts, smooth, off):
@@ -308,3 +318,17 @@ if __name__ == "__main__":
         print(f"已生成 {n} 张样例 -> {out}")
     else:
         print(__doc__)
+
+
+def figure(svg_text, q, caption, kind="2d", slug="fig"):
+    """包成完整的 <figure data-fig data-q> + overflow-x 容器。
+
+    q 必须是**问句**（这张图回答什么问题）；caption 要能独立读懂，不写「见图」。
+    用法：figure(f.svg("标题","描述","cool"), "为什么冷却有上限？", "曲线到冻结就转平。")
+    """
+    if not q.rstrip().endswith(("？", "?")):
+        raise ValueError("data-q 必须是问句（11 §1）：" + q)
+    return (f'<figure data-fig="{kind}" data-q="{_esc(q)}">\n'
+            f'  <div style="overflow-x:auto">\n    {svg_text}\n  </div>\n'
+            f'  <figcaption><b>【这张图回答】{_esc(q)}</b> {_esc(caption)}</figcaption>\n'
+            f'</figure>')
