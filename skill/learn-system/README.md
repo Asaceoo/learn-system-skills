@@ -99,7 +99,7 @@ study/<topic>/
 
 - 只讲一个概念要可视化 → `visual-knowledge-tutor` / `visual-learning-partner`
 - 要一份完整领域手册 → `knowledge-handbook-builder`
-- 要交互课件 / 知识图谱 → `teachany`
+- 要交互课件 / 可视化大屏 → `teachany`（**知识图谱不外包**：依赖图谱是本 skill 自己产的）
 - 给了源文件说「做成课程」 → `course-generator`
 - 只要连续课程、不要掌握度 → `teach` / `matt-teach`
 

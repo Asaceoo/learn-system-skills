@@ -3,7 +3,7 @@
 用法: python learn-system-audit.py
 退出码非 0 表示有 FAIL。输出真实报错，不美化。
 """
-import os, re, sys, yaml, html.parser, datetime, subprocess
+import os, re, sys, glob, yaml, html.parser, datetime, subprocess
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SKILL = os.path.join(ROOT, "skill", "learn-system")   # 仓库副本 = 唯一真源
@@ -166,6 +166,24 @@ for l in local:
 nav_txt = h[h.find('<nav'):h.find('</nav>')]
 chk("上一课" in nav_txt or "首课" in nav_txt, "导航含上一课位置", "缺失")
 chk("0002" in nav_txt, "导航声明下一课", "未声明下一课")
+
+# 每课必须含 2D + 3D 坐标系图（讲机制，不是装饰）
+for fn in sorted(glob.glob(os.path.join(WS, "lessons", "*.html"))):
+    lh = rd(fn)
+    n2d, n3d = lh.count('data-fig="2d"'), lh.count('data-fig="3d"')
+    nm = os.path.basename(fn)
+    chk(n2d >= 1 and n3d >= 1, f"{nm} 含坐标系图 2D×{n2d} / 3D×{n3d}", "课内缺机制图 = 只列结论不讲为什么")
+    chk(lh.count("<svg") == lh.count("</svg>") and 'viewBox="0 0 620' in lh, f"{nm} SVG 闭合且尺寸统一", "结构异常")
+    figtags = re.findall(r"<figure[^>]*>", lh)
+    noq = [t for t in figtags if 'data-q="' not in t or 'data-q=""' in t]
+    chk(not noq, f"{nm} 每个 figure 都声明了 data-q（{len(figtags)} 个）", f"无可回答问题的图：{noq[:1]}")
+    svgs = re.findall(r"<svg[\s\S]*?</svg>", lh)
+    thin = [i + 1 for i, b in enumerate(svgs) if b.count("<text") < 3]
+    chk(not thin, f"{nm} 各图文本 ≥3 条（{len(svgs)} 张，=轴标签+数据标注）", f"第 {thin} 张缺轴标签")
+    chk(not re.search(r"gradient|box-shadow|filter=", lh), f"{nm} 无渐变/阴影/滤镜", "平台规范与一致性原则禁止")
+    small = [x for x in re.findall(r'font-size="([\d.]+)"', lh) if float(x) < 11]
+    chk(not small, f"{nm} 图内字号全部 ≥11px", f"过小字号：{sorted(set(small))[:3]}")
+    chk(not re.search(r"如上图|见下图|见图[^解]", lh), f"{nm} caption 不写「见图」", "图必须能独立读懂")
 
 print("\n=== I. 掌握度 / 复习 一致性 ===")
 mt = rd(os.path.join(WS, "mastery.md"))
@@ -342,6 +360,15 @@ _audit_nums = {n for n in (_c1 & _c2 & _c3) if int(n) > 50}
 chk(len(_audit_nums) == 1,
     f"三份文档里的审计项数一致（{'/'.join(sorted(_audit_nums)) or '不一致'}）",
     "改了 README 忘了改手册 = 用户和实现者看到的数字不一样")
+
+print("\n=== AB. 图型语法与坐标库 ===")
+_ab = os.path.join(ROOT, "tools", "review_figspec.py")
+if os.path.exists(_ab):
+    import subprocess
+    if subprocess.call([sys.executable, _ab]) != 0:
+        FAILS.append("图型 AB 段有 FAIL（见上方 AB 段输出）")
+else:
+    FAILS.append("缺 tools/review_figspec.py")
 
 print("\n" + "=" * 58)
 if FAILS:

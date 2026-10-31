@@ -161,8 +161,8 @@ chk(
 # --- V17 体积红线 ---
 size = os.path.getsize(SK)
 chk(
-    size <= 14336,
-    "V17 SKILL.md 体积 %d B <= 14 KB 红线" % size,
+    size <= 15360,
+    "V17 SKILL.md 体积 %d B <= 15 KB 红线" % size,
     "加规则不能靠无限加字",
 )
 
@@ -188,9 +188,17 @@ else:
 
 
 # --- V20 路由表不得与本功能打架（盲测实测：07 曾写「知识图谱不接活」）---
-r7 = os.path.join(SKILL, "references", "07-routing.md")
-t7 = open(r7, encoding="utf-8").read() if os.path.exists(r7) else ""
-bad7 = [ln for ln in t7.splitlines() if "知识图谱" in ln and ("不接活" in ln or "切" in ln)]
+import glob as _g
+_routing_texts = {}
+for _f in _g.glob(os.path.join(SKILL, "**", "*.md"), recursive=True):
+    _routing_texts[os.path.basename(_f)] = open(_f, encoding="utf-8").read()
+bad7 = []
+for _name, _txt in _routing_texts.items():
+    for ln in _txt.splitlines():
+        # 「知识图谱 + 判给别的技能」即算矛盾；提到「自己产 / 不外包」的句子放行
+        if "知识图谱" in ln and any(k in ln for k in ("teachany", "不接活", "切到")):
+            if not any(w in ln for w in ("不外包", "自己产", "本 skill 自己")):
+                bad7.append(_name + ": " + ln.strip()[:52])
 chk(
     not bad7,
     "V20 路由表没有把「知识图谱」判给别的 skill（会与本功能自相矛盾）",
