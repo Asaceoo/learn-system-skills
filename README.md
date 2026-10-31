@@ -2,7 +2,7 @@
 
 **一个把「随便学学」变成「有图谱、有前置、有验收」的学习控制层。**
 
-版本：v0.7.5　|　许可：MIT　|　适用：Claude Code / Codex / WorkBuddy 等支持 `SKILL.md` 的 Agent
+版本：v0.8.0　|　许可：MIT　|　适用：Claude Code / Codex / WorkBuddy 等支持 `SKILL.md` 的 Agent
 
 [用户手册](docs/USER_GUIDE.md) · [技术手册](docs/TECHNICAL.md) · [Releases](../../releases)
 
@@ -130,7 +130,7 @@ graph LR
 
 ```bash
 # 方式一：解压 zip（推荐）
-unzip learn-system-v0.7.5.zip -d ~/.workbuddy/skills/
+unzip learn-system-v0.8.0.zip -d ~/.workbuddy/skills/
 # Windows: 解压到 C:\Users\<你>\.workbuddy\skills\
 
 # 方式二：从仓库复制
@@ -263,17 +263,18 @@ graph LR
 
 ---
 
-## 十、自检：140 项审计
+## 十、自检：154 项审计
 
 ```bash
-python learn-system-audit.py       # 主审计：140 项（含 T 弹窗 / V 图谱 / X 回归 / U 双副本）
+python learn-system-audit.py       # 主审计：154 项（含 T 弹窗 / V 图谱 / X 回归 / Y 组合 / U 双副本）
 python tools/review_dialog.py      # 弹窗专项（24 项）
 python tools/review_graph.py       # 图谱专项（34 项）
 python tools/review_regress.py     # 回归专项（13 项）
+python tools/review_compose.py     # 组合专项（14 项）
 python tools/count_checks.py       # 兜底：文档宣称的项数必须等于实际跑出的项数
 ```
 
-覆盖：包完整性、frontmatter、**18 条铁律交叉引用是否指对**、跨文件术语一致、`syllabus` 结构（DAG 无环/预算/字段/概念卡）、模板无断链、工作区产物（课/速查/掌握度/复习/日期算术/口径一致）、HTML 合法性、弹窗 24 项、图谱 34 项、回归 13 项、双副本一致性。
+覆盖：包完整性、frontmatter、**18 条铁律交叉引用是否指对**、跨文件术语一致、`syllabus` 结构（DAG 无环/预算/字段/概念卡/产物登记）、模板无断链、工作区产物（课/速查/掌握度/复习/日期算术/口径一致/借力产物是否登记）、HTML 合法性、弹窗 24 项、图谱 34 项、回归 13 项、组合 14 项、双副本一致性。
 
 **两道防假绿的闸**：
 
@@ -282,18 +283,45 @@ python tools/count_checks.py       # 兜底：文档宣称的项数必须等于�
 
 ---
 
-## 十一、明确不做
+## 十一、能和其他技能组合吗（能）
+
+它不是孤岛。**借力时控制权不转移**——别的技能只产内容，掌握度和复习队列只由它写。
+
+### 同一个概念，四种深度入口
+
+| 什么时候 | 要什么 | 谁产 | 落在哪 |
+|---|---|---|---|
+| 没懂，连续 2 次 | **深讲卡**（动画 / 白板分解） | 借 `visual-knowledge-tutor` | `reference/<概念>深讲.html` |
+| 懂了想用 | 速查件 | 自己 | `reference/<概念>速查.html` |
+| 要交付 | **模块手册** | 借 `knowledge-handbook-builder` | `handbook/` |
+| 要复习 | **抽认卡** | 自己从 mastery+review 派生 | `reference/抽认卡.html` |
+| 通勤听 | 音频 | 借 TTS | `reference/audio/` |
+
+### 四条组合铁律
+
+1. **控制权不转移**：`mastery.md` / `review.md` 只由本 skill 写，外部产物不许改状态
+2. **派活必须给已落盘输入**：不许口述「讲讲萃取率」，要给概念卡（含前置/前提假设/第一性原理）
+3. **产物必须登记**：写进 `syllabus.yaml` 的 `artifacts`，否则下个会话等于不存在
+4. **格式不归一就不硬塞**：外来 HTML 放 `reference/` 并在图谱页加链接，**不要塞进 `lessons/`**
+
+### 怎么用
+
+复制 `templates/compose-brief.md`，填完 6 个字段（给谁看 / 要什么 / 已知信息 / 格式约束 / 不要做什么 / 交回什么），连同它一起交给另一个技能。**别口述**——口述会丢前置和格式约束，回来还得重讲。
+
+规则全文见 `references/10-composition.md`（含 8 类产物的触发条件、接口契约、降级）。
+
+## 十二、明确不做
 
 - 不做「讲透单个概念」的活 → 切 `visual-knowledge-tutor`（切不成也能自己讲，但**不建 `study/` 目录**）
-- 不做交互课件 / 可视化大屏 → 切 `teachany`（但**依赖图谱**是自己产的，不外派）
+- 不**自己**做交互课件 / 可视化大屏 → 可借力 `teachany` 产到 `reference/`（依赖图谱自己产，不外派）
 - 不做知识的原创生产 → 只做结构化、锚定与验收
 - 不在聊天里存状态 → 状态一律落盘
 - 不靠文件时间戳猜你要学哪个课题 → 多个命中就问你
 
 ---
 
-## 十二、版本与构建
+## 十三、版本与构建
 
-- 当前版本 **v0.7.3**，技能包 `dist/learn-system-v0.7.5.zip`
+- 当前版本 **v0.7.3**，技能包 `dist/learn-system-v0.8.0.zip`
 - 构建：`python build.py [--bump patch|minor|major|--no-bump]`
   流程 = 递增版本号 → 同步三份文档 → 部署到已装副本 → **校验文档项数（不一致拒绝出包）** → 打包

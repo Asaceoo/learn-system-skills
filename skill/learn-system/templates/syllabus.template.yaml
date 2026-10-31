@@ -75,6 +75,16 @@ milestones:
   - after: [M02, M03]
     cumulative_check: "混合测验 8-10 题，含 2 题跨模块组合"
 
+# ── 组合产物登记（见 references/10-composition.md 第 5 节）──
+# 借力外部 skill 产出的文件必须登记一行；没登记 = 下个会话不存在，等于白做
+# 自产的课/图谱/速查件不用登记（它们在固定位置、由状态模型管）
+artifacts: []
+#  - name: "冷却时间深讲"
+#    type: deep-dive            # deep-dive | interactive | handbook | flashcards | audio
+#    path: "reference/冷却时间深讲.html"
+#    source: "visual-knowledge-tutor"    # 切不成时写 self-fallback
+#    created: "2026-10-31"
+
 # ── 差集记录（防「假全面」，见 references/01-system-design.md 第三节）──
 # 基准（教材目录/课标）里有、本大纲里没有的条目，必须逐条落到这里
 coverage_gap:

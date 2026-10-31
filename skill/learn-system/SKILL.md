@@ -34,7 +34,7 @@ disable-model-invocation: false
 
 ## 与既有 skill 的分工
 
-只做「跨多轮 + 要知道学到哪」。分工表与兜底见 `references/07-routing.md`；委派不承诺自动调用，切不成就自己做完。判断顺序：有没有这需求，有 → 本 skill。
+只做「跨多轮 + 要知道学到哪」。分工表与兜底见 `references/07-routing.md`，**借力出附加材料（深讲卡/交互/手册/抽认卡/音频）见 `references/10-composition.md`**。委派不承诺自动调用，切不成就自己做完。
 
 ## 铁律
 

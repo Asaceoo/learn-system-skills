@@ -1,6 +1,6 @@
 # learn-system 用户手册
 
-版本：v0.7.5　|　面向：使用这个 Skill 学习的人　|　技术细节见 `TECHNICAL.md`
+版本：v0.8.0　|　面向：使用这个 Skill 学习的人　|　技术细节见 `TECHNICAL.md`
 
 ---
 
@@ -31,7 +31,7 @@
 
 ```bash
 # 推荐：解压 zip
-unzip learn-system-v0.7.5.zip -d ~/.workbuddy/skills/
+unzip learn-system-v0.8.0.zip -d ~/.workbuddy/skills/
 ```
 
 Windows 解压到 `C:\Users\<你>\.workbuddy\skills\`，确认路径是：
@@ -268,7 +268,26 @@ modules:
 
 ---
 
-## 7. 常见问题
+## 7. 能和其他技能组合吗？能，而且这是产出最丰富的用法
+
+它管「学到哪」，别的技能管「讲得多花」。**借力时控制权不转移**——外部只产内容，掌握度和复习队列只由它写。
+
+同一个概念可以有四种深度入口：
+
+| 什么时候 | 要什么 | 谁产 | 落在哪 |
+|---|---|---|---|
+| 没懂，连续 2 次 | 深讲卡（动画 / 白板分解） | `visual-knowledge-tutor` | `reference/<概念>深讲.html` |
+| 懂了想用 | 速查件 | 它自己 | `reference/<概念>速查.html` |
+| 要交付 | 模块手册 | `knowledge-handbook-builder` | `handbook/` |
+| 要复习 | 抽认卡 | 它自己派生 | `reference/抽认卡.html` |
+
+**怎么用**：让它给一份「组合简报」（`templates/compose-brief.md`），填好后你带着去另一边。
+别口述需求——口述会丢前置条件和格式约束（比如"必须断网可用"），回来还得重讲一遍。
+
+**要注意**：外部产出的文件会登记进 `syllabus.yaml` 的 `artifacts`，没登记的下次会话就发现不了。
+如果对方提出"顺手帮你更新一下掌握度"，**拒绝**——状态只能由它写。
+
+## 8. 常见问题
 
 **Q：它讲的和我教材不一致怎么办？**
 以你的教材/一手材料为准。告诉它「我教材上写的是 X」，它会按级 0（一手材料）优先处理，并把分歧记进 `coverage_gap`。
@@ -296,7 +315,7 @@ modules:
 
 ---
 
-## 8. 三条纪律
+## 9. 三条纪律
 
 1. **聊天里不留状态。** 你说的每句话都可能丢，只有文件不会。
 2. **答完自检才给档位。** 没答就是「已上未评」，这是为了防止自评虚高。
@@ -304,11 +323,11 @@ modules:
 
 ---
 
-## 9. 更新与回退
+## 10. 更新与回退
 
 ```bash
 python build.py --bump patch    # 递增版本 + 同步文档 + 部署到已装副本 + 打包
-python learn-system-audit.py    # 140 项自检，退出码非 0 即有问题
+python learn-system-audit.py    # 154 项自检，退出码非 0 即有问题
 python tools/count_checks.py    # 文档说的项数 == 实际跑出的项数，不一致拒绝打包
 ```
 
