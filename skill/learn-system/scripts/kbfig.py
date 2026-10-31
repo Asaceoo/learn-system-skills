@@ -21,6 +21,7 @@
 """
 
 import math
+import os
 import sys
 
 # ── 配色（与课内页面同一套）────────────────────────────
@@ -255,6 +256,10 @@ def slices(f, curves, depth=(52, -28), colors=(LIGHT, ALT, MAIN),
 
 
 def _interp(pts, t):
+    # 越界即取端点（与 slices() 的「越界即报错」互补：插值函数要能安全返回端点，
+    # 而不是把下界外的点误返回最后一点 y —— 那会让拐点圆点/标签掉到曲线顶端）。
+    if t <= pts[0][0]:
+        return pts[0][1]
     for i in range(len(pts) - 1):
         (x0, y0), (x1, y1) = pts[i], pts[i + 1]
         if x0 <= t <= x1:
@@ -310,21 +315,44 @@ def demo(path="gallery.html"):
     return len(figs)
 
 
-if __name__ == "__main__":
-    if "--demo" in sys.argv:
-        i = sys.argv.index("--demo")
-        out = sys.argv[i + 1] if i + 1 < len(sys.argv) else "gallery.html"
-        n = demo(out)
-        print(f"已生成 {n} 张样例 -> {out}")
-    else:
-        print(__doc__)
+def selftest():
+    """行为自检：插值边界 + 无障碍契约 + figure 拒绝非问句 + demo 产量。"""
+    pts = [(0.2, 0.1), (0.5, 0.6), (1.0, 0.95)]
+    assert abs(_interp(pts, 0.05) - 0.1) < 1e-9, "_interp 下界外应返回第一点 y"
+    assert abs(_interp(pts, 0.5) - 0.6) < 1e-9, "_interp 区间内应线性插值"
+    assert abs(_interp(pts, 0.99) - 0.943) < 1e-6, "_interp 上界附近插值"
+    assert abs(_interp(pts, 2.0) - 0.95) < 1e-9, "_interp 上界外应返回最后一点 y"
+
+    f = Fig(xlab="t", ylab="v")
+    plateau(f, pts, knee=0.5, knee_label="k")
+    svg = f.svg("自检图", "desc", "selftest")
+    assert 'role="img"' in svg and "aria-labelledby=" in svg and "min-width:" in svg
+    assert '<title id="selftest-title">' in svg, "title 必须是首子元素且带前缀 id"
+
+    try:
+        figure(svg, "不是问句", "x")
+        raise AssertionError("figure() 应拒绝非问句 data-q")
+    except ValueError:
+        pass
+
+    tmp = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_selftest_gallery.html")
+    n = demo(tmp)
+    assert n == 4, "demo 应产出 4 张图，实 %d" % n
+    os.remove(tmp)
+    return n
 
 
-def figure(svg_text, q, caption, kind="2d", slug="fig"):
+def figure(svg_text, q, caption, kind="2d"):
     """包成完整的 <figure data-fig data-q> + overflow-x 容器。
 
     q 必须是**问句**（这张图回答什么问题）；caption 要能独立读懂，不写「见图」。
-    用法：figure(f.svg("标题","描述","cool"), "为什么冷却有上限？", "曲线到冻结就转平。")
+    无障碍契约（role=img / aria-labelledby / title 首子元素带前缀 id / min-width）
+    由 f.svg(...) 的 slug 参数保证，本函数只负责外层 <figure> 与 overflow-x 容器。
+
+    用法：
+        figure(f.svg("平台曲线", "到拐点后补料通道断开", "pf"),
+               "为什么保压时间到某点后不再有用？",
+               "平台曲线：越过拐点只增周期不增料。")
     """
     if not q.rstrip().endswith(("？", "?")):
         raise ValueError("data-q 必须是问句（11 §1）：" + q)
@@ -332,3 +360,16 @@ def figure(svg_text, q, caption, kind="2d", slug="fig"):
             f'  <div style="overflow-x:auto">\n    {svg_text}\n  </div>\n'
             f'  <figcaption><b>【这张图回答】{_esc(q)}</b> {_esc(caption)}</figcaption>\n'
             f'</figure>')
+
+
+if __name__ == "__main__":
+    if "--demo" in sys.argv:
+        i = sys.argv.index("--demo")
+        out = sys.argv[i + 1] if i + 1 < len(sys.argv) else "gallery.html"
+        n = demo(out)
+        print(f"已生成 {n} 张样例 -> {out}")
+    elif "--selftest" in sys.argv:
+        n = selftest()
+        print(f"kbfig 自检通过（{n} 张样例 + 边界/契约校验）")
+    else:
+        print(__doc__)

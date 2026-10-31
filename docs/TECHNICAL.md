@@ -1,6 +1,6 @@
 # learn-system 技术手册
 
-版本：v0.9.4　|　面向：实现者、审查者、想改这个 Skill 的人　|　使用者请看 `USER_GUIDE.md`
+版本：v0.9.5　|　面向：实现者、审查者、想改这个 Skill 的人　|　使用者请看 `USER_GUIDE.md`
 
 ---
 
@@ -185,7 +185,7 @@ templates/
 
 ---
 
-## 6. 审计脚本：259 项
+## 6. 审计脚本：260 项
 
 ```bash
 python learn-system-audit.py     # 主审计，退出码非 0 即 FAIL
@@ -195,7 +195,7 @@ python tools/review_regress.py   # 鲁班改动回归 X 段（13 项）
 python tools/review_compose.py   # 组合产出 Y 段（14 项）
 python tools/review_compose_deep.py # 组合深度 Z 段（17 项）
 python tools/review_side_effects.py # 副作用 AA 段（14 项）
-python tools/review_visual.py      # 图面语法 AC 段（25 项）
+python tools/review_visual.py      # 图面语法 AC 段（26 项）
 python tools/count_checks.py     # 兜底：文档宣称的项数 == 实际跑出的 PASS 数
 ```
 
@@ -558,7 +558,7 @@ X 段的存在性检查只认带扩展名的路径，所以没拦住。已改为
    推论：**生成类产物必须配可执行的校验脚本 + 人工过一眼图**，`grep -c` 只能证明「有图」，证明不了「图能用」。
 
 8. **`dist/` 里的旧版本包不是历史快照。** `build.py` 每次都从「当前源码 + 当前文档」重新打包，
-   所以 `learn-system-v0.9.4.zip` 里装的其实是**现在的内容**，只有版本号字符串不同。
+   所以 `learn-system-v0.9.5.zip` 里装的其实是**现在的内容**，只有版本号字符串不同。
    要拿到真正的历史版本，需要从 git tag 重新构建——**当前没做这件事**。
    影响：不能靠 dist 里的旧包回退或做版本对比；已在 v0.8.2 的 release 说明里加了警告。
 

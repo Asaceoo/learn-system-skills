@@ -1,6 +1,6 @@
 # learn-system · 体系学习控制器
 
-> 版本：v0.9.4 · 一个让「学完一个领域」可追踪的 Agent Skill
+> 版本：v0.9.5 · 一个让「学完一个领域」可追踪的 Agent Skill
 > 它不教你知识，它管你把一件事学完：**学什么、什么顺序、到什么程度、什么时候该复习**。
 
 ---
@@ -21,9 +21,11 @@
 
 ---
 
-## 二、四层结构（概念图）
+## 二、几张概念图（先建立直觉）
 
 聊天是入口，**文件是事实**。换会话、换设备、隔三个月，读 `mastery.md` 顶部三行就能接上。
+
+### 2.1 四层文件结构
 
 ![四层文件结构：从 MISSION 到 review 的六类文件，聊天只作入口、文件才是事实](docs/assets/concept-structure.svg)
 
@@ -38,9 +40,7 @@ flowchart TD
     MA -.进度回看.-> S
 ```
 
----
-
-## 三、五个环节（概念图）
+### 2.2 五个环节
 
 ```mermaid
 flowchart LR
@@ -54,9 +54,7 @@ flowchart LR
 
 每个环节都有明确的**停等点**：走完一段就停下来等反馈，不自己往下冲。
 
----
-
-## 四、一张图该长什么样（概念图）
+### 2.3 一张图该长什么样（课内的图必须讲「为什么」）
 
 这是 v0.8.5 之后新增的一层：**课内的图必须讲「为什么」，不是装饰**。
 
@@ -94,9 +92,7 @@ flowchart TD
 
 **为什么值得为图花时间**：Mayer 多媒体学习研究里，图文并用的效应量约 d=0.75，和形成性评价、提取练习同一量级。但前提是图必须**符合一致性原则**——装饰性插图反而有害。
 
----
-
-## 五、知识图谱：每个概念八项（概念图）
+### 2.4 知识图谱：每个概念八项
 
 大纲告诉你「学什么」，图谱告诉你「它们之间什么关系、每个点到底是什么」。
 
@@ -118,9 +114,7 @@ flowchart LR
 
 前六项落在 `syllabus.yaml` 的 `concept_cards`；两张图落在 `graph.html`（单文件、离线可开、可打印）。
 
----
-
-## 六、两个刻度不能混（概念图）
+### 2.5 两个刻度不能混
 
 ```mermaid
 flowchart LR
@@ -141,7 +135,9 @@ flowchart LR
 
 ---
 
-## 七、安装
+## 三、使用说明（怎么用）
+
+### 3.1 安装
 
 ```bash
 # 方式一：解压到技能目录
@@ -155,11 +151,9 @@ cp -r skill/learn-system ~/.workbuddy/skills/
 
 > **注意**：仓库副本（`skill/learn-system/`）和已安装副本是**两个独立文件树**。改了仓库不部署，跑的还是旧副本。`build.py` 会自动部署，审计的 U 段会逐文件比对，不一致直接 FAIL。
 
----
+### 3.2 用法（四个动作）
 
-## 八、用法
-
-### 8.1 开课
+**开课**
 
 ```text
 你：我想系统学 注塑
@@ -170,16 +164,14 @@ cp -r skill/learn-system ~/.workbuddy/skills/
 它：（出知识图谱 graph.html → 停下等你看）
 ```
 
-### 8.2 上课
+**上课**
 
 ```text
 你：继续
 它：（定位进度 → 先写状态 → 写一课 → 交课前逐项打勾贴证据 → 停下）
 ```
 
-**一个能力点、一个练习、3-5 题零提示自检、一条主源链接、一个问老师入口、2D+3D 各一张机制图。**
-
-### 8.3 复习与测试
+**复习与测试**
 
 ```text
 你：该复习什么      → 先报「今天到期 N 条」，再出抽问题（不重讲）
@@ -187,7 +179,7 @@ cp -r skill/learn-system ~/.workbuddy/skills/
 你：我学到哪了      → 进度表 + 三个最薄弱点 + 下一课
 ```
 
-### 8.4 控制节奏
+**控制节奏**
 
 ```text
 你：太浅了          → 改大纲，记 learning-record
@@ -195,9 +187,11 @@ cp -r skill/learn-system ~/.workbuddy/skills/
 你：一个月没学了    → 逾期判定：3 周改判据 / 6 周归档，不假装还在学
 ```
 
+**一课的硬指标**：一个能力点、一个练习、3-5 题零提示自检、一条主源链接、一个问老师入口、2D+3D 各一张机制图。
+
 ---
 
-## 九、20 个使用实例
+## 四、20 个使用实例
 
 | # | 你说什么 | 它做什么 | 你拿到什么 |
 |---|---|---|---|
@@ -222,7 +216,7 @@ cp -r skill/learn-system ~/.workbuddy/skills/
 | 19 | 接管我之前的 teach 进度 | 检测到 signals 且无 syllabus.yaml 时问一句，接管后把旧资产当已有 | 继承的 lessons + records |
 | 20 | 这个知识点你确定对吗 | 断言分级：事实带锚点 / 建议标明 / 推断带可推翻条件 | 每句都有级别，能查证 |
 
-**另外三条与图有关**：
+**进阶：与图相关的三条**
 
 | # | 你说什么 | 它做什么 |
 |---|---|---|
@@ -232,7 +226,7 @@ cp -r skill/learn-system ~/.workbuddy/skills/
 
 ---
 
-## 十、知识正确性怎么保证（四关）
+## 五、知识正确性怎么保证（四关）
 
 它不能保证知识一定对，但能让**错误变便宜**——四道关，每道都留下可查痕迹：
 
@@ -247,7 +241,7 @@ cp -r skill/learn-system ~/.workbuddy/skills/
 
 ---
 
-## 十一、图谱页四层：一眼看到「学到哪了」
+## 六、图谱页四层：一眼看到「学到哪了」
 
 `graph.html` 不是「一张大图 + 一堆卡片」，而是四层递进，**每一层只回答一个问题**：
 
@@ -265,16 +259,18 @@ cp -r skill/learn-system ~/.workbuddy/skills/
 **热力图的读法**：格内是**概念数**，不是分数。整列都是 0 不是记录缺失，是还没到那个阶段。
 「未评」这一列有数字，说明课上过了但自检没答——**这正是最该被看见的一列**。
 
-## 十二、自检：259 项审计
+---
+
+## 七、自检：260 项审计
 
 ```bash
-python learn-system-audit.py       # 主审计：259 项，退出码非 0 即 FAIL
+python learn-system-audit.py       # 主审计：260 项，退出码非 0 即 FAIL
 python tools/review_dialog.py      # 弹窗专项 T 段（24 项）
 python tools/review_graph.py       # 图谱专项 V 段（34 项）
 python tools/review_compose.py     # 组合专项 Y 段（14 项）
 python tools/review_compose_deep.py # 组合深度 Z 段（17 项）
 python tools/review_side_effects.py # 副作用 AA 段（14 项）
-python tools/review_visual.py      # 图面语法 AC 段（25 项）
+python tools/review_visual.py      # 图面语法 AC 段（26 项）
 python tools/review_regress.py     # 回归 X 段（13 项）
 python tools/review_figspec.py     # 图型语法 AB 段（19 项）
 python tools/count_checks.py       # 兜底：文档宣称项数 == 实际 PASS 数
@@ -286,7 +282,7 @@ python tools/count_checks.py       # 兜底：文档宣称项数 == 实际 PASS 
 
 ---
 
-## 十三、能和其他技能组合吗（能）
+## 八、能和其他技能组合吗（能）
 
 它不是孤岛。**借力时控制权不转移**——别的技能只产内容，掌握度和复习队列只由它写。
 
@@ -307,7 +303,7 @@ python tools/count_checks.py       # 兜底：文档宣称项数 == 实际 PASS 
 
 ---
 
-## 十四、明确不做
+## 九、明确不做
 
 | 不做 | 原因 |
 |---|---|
@@ -322,7 +318,7 @@ python tools/count_checks.py       # 兜底：文档宣称项数 == 实际 PASS 
 
 ---
 
-## 十五、版本与构建
+## 十、版本与构建
 
 ```bash
 python build.py              # 递增 patch → 同步文档版本号 → 部署到已装副本 → 门禁校验 → 打 zip

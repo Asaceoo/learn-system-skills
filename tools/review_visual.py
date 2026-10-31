@@ -262,6 +262,21 @@ for fp, label in ((gp, "图谱页"), (os.path.join(WS, "lessons"), "课内")):
         chk(not nested, "AC24 %s %d 个 <a> 全部配平且无嵌套" % (label, opens),
             "不配平/嵌套 = 浏览器不渲染内部元素，而 grep 数数量一切正常：" + "；".join(nested[:3]))
 
+# --- AC27 kbfig 行为自检（工具闭环：真实跑出边界/契约错误）---
+# 教训：AC13/AC14 只静态查 kbfig 源码含某几行，_interp 下界返回错 y 这类
+# 运行时行为查不到 —— 本轮对抗性审查真机复现了 knee<首点x 时圆点掉到曲线顶端。
+# 用 kbfig 自带的 --selftest 做行为断言，才是真的「覆盖」。
+import subprocess as _sp
+if os.path.exists(KBF):
+    _r = _sp.run([sys.executable, KBF, "--selftest"],
+                 capture_output=True, text=True,
+                 cwd=os.path.dirname(KBF))
+    chk(_r.returncode == 0,
+        "AC27 kbfig --selftest 通过（插值边界 + 无障碍契约 + 拒绝非问句 + demo 产量）",
+        (_r.stderr or _r.stdout).strip()[-160:])
+else:
+    chk(False, "AC27 kbfig.py 存在", "脚本不存在无法自检")
+
 print("\n" + "=" * 58)
 if fails:
     print("AC 段 FAIL %d 项：%s" % (len(fails), "；".join(fails[:6])))
