@@ -1,6 +1,6 @@
 # learn-system 用户手册
 
-版本：v0.8.1　|　面向：使用这个 Skill 学习的人　|　技术细节见 `TECHNICAL.md`
+版本：v0.8.2　|　面向：使用这个 Skill 学习的人　|　技术细节见 `TECHNICAL.md`
 
 ---
 
@@ -31,7 +31,7 @@
 
 ```bash
 # 推荐：解压 zip
-unzip learn-system-v0.8.1.zip -d ~/.workbuddy/skills/
+unzip learn-system-v0.8.2.zip -d ~/.workbuddy/skills/
 ```
 
 Windows 解压到 `C:\Users\<你>\.workbuddy\skills\`，确认路径是：
@@ -291,6 +291,10 @@ modules:
 `mastery.md` 该概念的**备注**列（「未懂 1」「未懂 2」）。所以第一次说没懂时它只记一笔，
 第二次才出深讲卡——不是它没听懂，是它按规矩数。
 
+**你说「看了两遍」只算 1 次**（一次阅读经历）。而且如果这个概念**还没有自己的一课**，
+它会先补课而不是给你一张深讲卡——因为卡落在 `reference/`，不进 `lessons/` 编号，
+下次会话恢复入口也不会指向它，等于用附加材料掩盖了本该补的一课。
+
 顺便分清：**没懂 → 换讲法**；**答错 → 记错因**（`mistakes.md`）。两件事不要混。
 
 ## 8. 常见问题
@@ -333,7 +337,7 @@ modules:
 
 ```bash
 python build.py --bump patch    # 递增版本 + 同步文档 + 部署到已装副本 + 打包
-python learn-system-audit.py    # 171 项自检，退出码非 0 即有问题
+python learn-system-audit.py    # 185 项自检，退出码非 0 即有问题
 python tools/count_checks.py    # 文档说的项数 == 实际跑出的项数，不一致拒绝打包
 ```
 

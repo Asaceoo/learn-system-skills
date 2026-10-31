@@ -2,7 +2,7 @@
 
 **一个把「随便学学」变成「有图谱、有前置、有验收」的学习控制层。**
 
-版本：v0.8.1　|　许可：MIT　|　适用：Claude Code / Codex / WorkBuddy 等支持 `SKILL.md` 的 Agent
+版本：v0.8.2　|　许可：MIT　|　适用：Claude Code / Codex / WorkBuddy 等支持 `SKILL.md` 的 Agent
 
 [用户手册](docs/USER_GUIDE.md) · [技术手册](docs/TECHNICAL.md) · [Releases](../../releases)
 
@@ -130,7 +130,7 @@ graph LR
 
 ```bash
 # 方式一：解压 zip（推荐）
-unzip learn-system-v0.8.1.zip -d ~/.workbuddy/skills/
+unzip learn-system-v0.8.2.zip -d ~/.workbuddy/skills/
 # Windows: 解压到 C:\Users\<你>\.workbuddy\skills\
 
 # 方式二：从仓库复制
@@ -263,15 +263,16 @@ graph LR
 
 ---
 
-## 十、自检：171 项审计
+## 十、自检：185 项审计
 
 ```bash
-python learn-system-audit.py       # 主审计：171 项（含 T 弹窗 / V 图谱 / X 回归 / Y 组合 / Z 组合深度 / U 双副本）
+python learn-system-audit.py       # 主审计：185 项（含 T 弹窗 / V 图谱 / X 回归 / Y 组合 / Z 组合深度 / AA 副作用 / U 双副本）
 python tools/review_dialog.py      # 弹窗专项（24 项）
 python tools/review_graph.py       # 图谱专项（34 项）
 python tools/review_regress.py     # 回归专项（13 项）
 python tools/review_compose.py     # 组合专项（14 项）
 python tools/review_compose_deep.py # 组合深度专项（17 项）
+python tools/review_side_effects.py # 副作用专项（14 项）
 python tools/count_checks.py       # 兜底：文档宣称的项数必须等于实际跑出的项数
 ```
 
@@ -297,6 +298,15 @@ python tools/count_checks.py       # 兜底：文档宣称的项数必须等于�
 | 要交付 | **模块手册** | 借 `knowledge-handbook-builder` | `handbook/` |
 | 要复习 | **抽认卡** | 自己从 mastery+review 派生 | `reference/抽认卡.html` |
 | 通勤听 | 音频 | 借 TTS | `reference/audio/` |
+
+### 你说「我没懂」时会发生什么
+
+| 情况 | 它会做什么 |
+|---|---|
+| 第一次说没懂 | 在 `mastery.md` 备注记「未懂 1」，**当场给一段定位**（不说空话让你等） |
+| 第二次说没懂 | 记「未懂 2」→ 出深讲卡 |
+| **这概念还没自己的一课** | 先补课（流程 B），**不用深讲卡顶替**——卡不进 `lessons/` 编号，恢复入口也不会指向它 |
+| 你说「看了两遍」 | 算 **1 次**反馈，不是两次 |
 
 ### 「没懂」要记，不能凭印象
 
@@ -333,6 +343,6 @@ python tools/count_checks.py       # 兜底：文档宣称的项数必须等于�
 
 ## 十三、版本与构建
 
-- 当前版本 **v0.7.3**，技能包 `dist/learn-system-v0.8.1.zip`
+- 当前版本 **v0.7.3**，技能包 `dist/learn-system-v0.8.2.zip`
 - 构建：`python build.py [--bump patch|minor|major|--no-bump]`
   流程 = 递增版本号 → 同步三份文档 → 部署到已装副本 → **校验文档项数（不一致拒绝出包）** → 打包

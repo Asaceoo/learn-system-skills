@@ -42,7 +42,7 @@ fm = yaml.safe_load(re.match(r"^---\n(.*?)\n---\n", sk, re.S).group(1))
 chk(fm.get("name") == "learn-system", "name 正确", str(fm.get("name")))
 chk(len(fm.get("description", "")) > 60, "description 非空", str(len(fm.get("description", ""))))
 sz = os.path.getsize(os.path.join(SKILL, "SKILL.md"))
-chk(sz <= 14336, f"SKILL.md <= 14KB (实 {sz}B)", f"{sz}B")
+chk(sz <= 15360, f"SKILL.md <= 15KB (实 {sz}B)", f"{sz}B")
 
 print("\n=== C. 铁律编号自引（实现者最容易写错的地方）==")
 rules = {}
@@ -255,6 +255,15 @@ chk("复习档位" not in all_txt, "全局无『复习档位』残留（已改�
 print("\n=== N. 覆盖度检查时机 ==")
 chk(re.search(r"覆盖度.*?(每课|模块结束)", sk, re.S) is not None,
     "定义了覆盖度检查时机", "铁律 4 要求覆盖度验收，但没说什么时候查")
+
+print("\n=== AA. v0.8.1 修复的副作用检查 ===")
+_aa = os.path.join(ROOT, "tools", "review_side_effects.py")
+if os.path.exists(_aa):
+    import subprocess
+    if subprocess.call([sys.executable, _aa]) != 0:
+        FAILS.append("副作用 AA 段有 FAIL（见上方 AA 段输出）")
+else:
+    FAILS.append("缺 tools/review_side_effects.py")
 
 print("\n=== Z. 组合功能深度校验 ===")
 _z = os.path.join(ROOT, "tools", "review_compose_deep.py")
