@@ -1,6 +1,6 @@
 # learn-system 用户手册
 
-版本：v0.8.0　|　面向：使用这个 Skill 学习的人　|　技术细节见 `TECHNICAL.md`
+版本：v0.8.1　|　面向：使用这个 Skill 学习的人　|　技术细节见 `TECHNICAL.md`
 
 ---
 
@@ -31,7 +31,7 @@
 
 ```bash
 # 推荐：解压 zip
-unzip learn-system-v0.8.0.zip -d ~/.workbuddy/skills/
+unzip learn-system-v0.8.1.zip -d ~/.workbuddy/skills/
 ```
 
 Windows 解压到 `C:\Users\<你>\.workbuddy\skills\`，确认路径是：
@@ -287,6 +287,12 @@ modules:
 **要注意**：外部产出的文件会登记进 `syllabus.yaml` 的 `artifacts`，没登记的下次会话就发现不了。
 如果对方提出"顺手帮你更新一下掌握度"，**拒绝**——状态只能由它写。
 
+**「没懂」也要留痕**：深讲卡的触发条件是「同一概念连续 2 次没懂」，它会把这个次数记在
+`mastery.md` 该概念的**备注**列（「未懂 1」「未懂 2」）。所以第一次说没懂时它只记一笔，
+第二次才出深讲卡——不是它没听懂，是它按规矩数。
+
+顺便分清：**没懂 → 换讲法**；**答错 → 记错因**（`mistakes.md`）。两件事不要混。
+
 ## 8. 常见问题
 
 **Q：它讲的和我教材不一致怎么办？**
@@ -327,7 +333,7 @@ modules:
 
 ```bash
 python build.py --bump patch    # 递增版本 + 同步文档 + 部署到已装副本 + 打包
-python learn-system-audit.py    # 154 项自检，退出码非 0 即有问题
+python learn-system-audit.py    # 171 项自检，退出码非 0 即有问题
 python tools/count_checks.py    # 文档说的项数 == 实际跑出的项数，不一致拒绝打包
 ```
 

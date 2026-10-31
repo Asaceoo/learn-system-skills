@@ -2,7 +2,7 @@
 
 **一个把「随便学学」变成「有图谱、有前置、有验收」的学习控制层。**
 
-版本：v0.8.0　|　许可：MIT　|　适用：Claude Code / Codex / WorkBuddy 等支持 `SKILL.md` 的 Agent
+版本：v0.8.1　|　许可：MIT　|　适用：Claude Code / Codex / WorkBuddy 等支持 `SKILL.md` 的 Agent
 
 [用户手册](docs/USER_GUIDE.md) · [技术手册](docs/TECHNICAL.md) · [Releases](../../releases)
 
@@ -130,7 +130,7 @@ graph LR
 
 ```bash
 # 方式一：解压 zip（推荐）
-unzip learn-system-v0.8.0.zip -d ~/.workbuddy/skills/
+unzip learn-system-v0.8.1.zip -d ~/.workbuddy/skills/
 # Windows: 解压到 C:\Users\<你>\.workbuddy\skills\
 
 # 方式二：从仓库复制
@@ -263,18 +263,19 @@ graph LR
 
 ---
 
-## 十、自检：154 项审计
+## 十、自检：171 项审计
 
 ```bash
-python learn-system-audit.py       # 主审计：154 项（含 T 弹窗 / V 图谱 / X 回归 / Y 组合 / U 双副本）
+python learn-system-audit.py       # 主审计：171 项（含 T 弹窗 / V 图谱 / X 回归 / Y 组合 / Z 组合深度 / U 双副本）
 python tools/review_dialog.py      # 弹窗专项（24 项）
 python tools/review_graph.py       # 图谱专项（34 项）
 python tools/review_regress.py     # 回归专项（13 项）
 python tools/review_compose.py     # 组合专项（14 项）
+python tools/review_compose_deep.py # 组合深度专项（17 项）
 python tools/count_checks.py       # 兜底：文档宣称的项数必须等于实际跑出的项数
 ```
 
-覆盖：包完整性、frontmatter、**18 条铁律交叉引用是否指对**、跨文件术语一致、`syllabus` 结构（DAG 无环/预算/字段/概念卡/产物登记）、模板无断链、工作区产物（课/速查/掌握度/复习/日期算术/口径一致/借力产物是否登记）、HTML 合法性、弹窗 24 项、图谱 34 项、回归 13 项、组合 14 项、双副本一致性。
+覆盖：包完整性、frontmatter、**18 条铁律交叉引用是否指对**、跨文件术语一致、`syllabus` 结构（DAG 无环/预算/字段/概念卡/产物登记/type 枚举/path 存在性）、模板无断链、工作区产物（课/速查/掌握度/复习/日期算术/口径一致/借力产物是否登记）、HTML 合法性、弹窗 24 项、图谱 34 项、回归 13 项、组合 14 项、组合深度 17 项、双副本一致性。
 
 **两道防假绿的闸**：
 
@@ -296,6 +297,16 @@ python tools/count_checks.py       # 兜底：文档宣称的项数必须等于�
 | 要交付 | **模块手册** | 借 `knowledge-handbook-builder` | `handbook/` |
 | 要复习 | **抽认卡** | 自己从 mastery+review 派生 | `reference/抽认卡.html` |
 | 通勤听 | 音频 | 借 TTS | `reference/audio/` |
+
+### 「没懂」要记，不能凭印象
+
+深讲卡的触发条件是「同一概念连续 2 次没懂」。**这个「2 次」要落在文件上**——在 `mastery.md` 该概念的**备注**列写「未懂 1」，第二次写「未懂 2」并出深讲卡。
+
+- 用户说「我看了两遍」算 **1 次**反馈（一次阅读经历），不是 2 次
+- 只有两次**独立的**「没懂」表达才累计
+- 凭印象判「这是第二次」= 和「档位靠感觉给」同类毛病
+
+另外分清两件事：**没懂 → 换讲法**（深讲卡）；**答错 → 记错因**（`mistakes.md`）。
 
 ### 四条组合铁律
 
@@ -322,6 +333,6 @@ python tools/count_checks.py       # 兜底：文档宣称的项数必须等于�
 
 ## 十三、版本与构建
 
-- 当前版本 **v0.7.3**，技能包 `dist/learn-system-v0.8.0.zip`
+- 当前版本 **v0.7.3**，技能包 `dist/learn-system-v0.8.1.zip`
 - 构建：`python build.py [--bump patch|minor|major|--no-bump]`
   流程 = 递增版本号 → 同步三份文档 → 部署到已装副本 → **校验文档项数（不一致拒绝出包）** → 打包

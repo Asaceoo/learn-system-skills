@@ -256,6 +256,15 @@ print("\n=== N. 覆盖度检查时机 ==")
 chk(re.search(r"覆盖度.*?(每课|模块结束)", sk, re.S) is not None,
     "定义了覆盖度检查时机", "铁律 4 要求覆盖度验收，但没说什么时候查")
 
+print("\n=== Z. 组合功能深度校验 ===")
+_z = os.path.join(ROOT, "tools", "review_compose_deep.py")
+if os.path.exists(_z):
+    import subprocess
+    if subprocess.call([sys.executable, _z]) != 0:
+        FAILS.append("组合深度 Z 段有 FAIL（见上方 Z 段输出）")
+else:
+    FAILS.append("缺 tools/review_compose_deep.py")
+
 print("\n=== Y. 组合产出功能完整性 ===")
 _y = os.path.join(ROOT, "tools", "review_compose.py")
 if os.path.exists(_y):
